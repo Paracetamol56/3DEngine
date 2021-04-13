@@ -13,6 +13,14 @@ CTriangle::CTriangle(std::array<CVector3D, 3> points)
     m_Points = points;
 }
 
+CTriangle::CTriangle(CTriangle* other)
+{
+    for (size_t i = 0; i < 3; i++)
+    {
+        m_Points.at(i) = other->getPoints().at(i);
+    }
+}
+
 // Destructor
 CTriangle::~CTriangle()
 {

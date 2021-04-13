@@ -37,9 +37,35 @@ CMain::CMain() : wxFrame(nullptr, wxID_ANY, "3D Engine", wxDefaultPosition, wxSi
 	m_projMat.setMatrixAt(3, 2, (- m_Far * m_Near) / (m_Far - m_Near));
 	m_projMat.setMatrixAt(2, 3, 1.0f);
 	m_projMat.setMatrixAt(3, 3, 0.0f);
+
+	Update();
 }
 
 // Destructor
 CMain::~CMain()
 {
+}
+
+// Update function
+void CMain::Update()
+{
+	CVector3D translationVec((float)GetSize().GetX() / 2, (float)GetSize().GetY() / 2, 0.0f);
+	for (CTriangle iTriangle : m_mesh.getTrianlges())
+	{
+		CTriangle projTriangle(&iTriangle);
+
+		// Multiplying each point by the projection matrix
+		for (size_t i = 0; i < 3; i++)
+		{
+			projTriangle.getPoints().at(i) *= m_projMat;
+		}
+		
+		// Draw each edge of the triangle
+		for (size_t i = 0; i < 3; i++)
+		{
+			CVector3D point1 = projTriangle.getPoints().at(i) + translationVec;
+			CVector3D point2 = projTriangle.getPoints().at((i + 1) % 3) + translationVec;
+			m_mainDrawPane->paintNow(point1, point2);
+		}
+	}
 }

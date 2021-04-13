@@ -30,5 +30,7 @@ public:
 	// Public constructor and destructor
 	CMain();
 	~CMain();
+
+	void Update();
 };
 

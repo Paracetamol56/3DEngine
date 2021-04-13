@@ -13,17 +13,18 @@ void CDrawPane::paintEvent(wxPaintEvent& evt)
 	render(dc);
 }
 
-void CDrawPane::paintNow()
+void CDrawPane::paintNow(CVector3D point1, CVector3D point2)
 {
 	wxClientDC dc(this);
+	dc.SetPen(wxPen(wxColor(255, 255, 255), 100));
+	dc.DrawLine(point1.getX(), point1.getY(), point2.getX(), point2.getY());
 	render(dc);
 }
 
 void CDrawPane::render(wxDC& dc)
 {
-	dc.SetBrush(wxBrush(wxColor(150, 150, 150), wxBRUSHSTYLE_SOLID));
-    dc.SetPen(wxPen(wxColor(255, 255, 255), 2));
-    dc.DrawLine(300, 100, 700, 300);
+    /*dc.SetPen(wxPen(wxColor(255, 255, 255), 2));
+    dc.DrawLine(300, 100, 700, 300);*/
 }
 
 // Constructor

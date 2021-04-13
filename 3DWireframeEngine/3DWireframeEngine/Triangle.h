@@ -10,8 +10,9 @@ private:
 
 public:
 	// Public constructor and destructor
-	CTriangle(CVector3D, CVector3D, CVector3D);
-	CTriangle(std::array<CVector3D, 3>);
+	CTriangle(CVector3D point1, CVector3D point2, CVector3D point3);
+	CTriangle(std::array<CVector3D, 3> points);
+	CTriangle(CTriangle* other);
 	~CTriangle();
 
 	// Getters
