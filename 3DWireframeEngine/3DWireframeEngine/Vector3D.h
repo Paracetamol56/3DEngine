@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Matrix.h"
+
 class CVector3D
 {
 private:
@@ -40,4 +42,7 @@ public:
 	CVector3D& operator - (CVector3D& other) const;
 	CVector3D& operator * (float factor) const;
 	CVector3D& operator / (float factor) const;
+
+	CVector3D& operator *= (CMatrix<4> mat);
+	CVector3D& operator * (CMatrix<4> mat) const;
 };
