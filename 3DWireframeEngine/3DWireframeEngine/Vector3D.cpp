@@ -1,5 +1,6 @@
 #include "Vector3D.h"
 
+// Constructor
 CVector3D::CVector3D(float x, float y, float z)
 {
 	m_x = x;
@@ -7,35 +8,42 @@ CVector3D::CVector3D(float x, float y, float z)
 	m_z = z;
 }
 
+// Destructor
 CVector3D::~CVector3D()
 {
 }
 
-float CVector3D::getX()
+// X getter
+float CVector3D::getX() const
 {
 	return m_x;
 }
 
-float CVector3D::getY()
+// Y getter
+float CVector3D::getY() const
 {
 	return m_y;
 }
 
-float CVector3D::getZ()
+// Z getter
+float CVector3D::getZ() const
 {
 	return m_z;
 }
 
+// X setter
 void CVector3D::setX( float x )
 {
 	m_x = x;
 }
 
+// Y setter
 void CVector3D::setY( float y )
 {
 	m_z = y;
 }
 
+// Z setter
 void CVector3D::setZ( float z )
 {
 	m_z = z;
