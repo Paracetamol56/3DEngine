@@ -14,13 +14,30 @@ public:
 	CVector3D(float x, float y, float z);
 	~CVector3D();
 
+public:
 	// Getters
 	float getX() const;
 	float getY() const;
 	float getZ() const;
 
+public:
 	// Setters
 	void setX( float x );
 	void setY( float y );
 	void setZ( float z );
+
+public:
+	// Operators
+	CVector3D operator- () const;
+	CVector3D operator+ () const;
+
+	CVector3D& operator += (CVector3D& other);
+	CVector3D& operator -= (CVector3D& other);
+	CVector3D& operator *= (float factor);
+	CVector3D& operator /= (float factor);
+
+	CVector3D& operator + (CVector3D& other) const;
+	CVector3D& operator - (CVector3D& other) const;
+	CVector3D& operator * (float factor) const;
+	CVector3D& operator / (float factor) const;
 };

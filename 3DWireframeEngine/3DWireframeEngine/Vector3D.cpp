@@ -53,3 +53,83 @@ void CVector3D::setZ( float z )
 {
 	m_z = z;
 }
+
+// Operator -
+CVector3D CVector3D::operator-() const
+{
+	return CVector3D( -m_x, -m_y, -m_z);
+}
+
+// Operator +
+CVector3D CVector3D::operator+() const
+{
+	return *this;
+}
+
+// Operator +=
+CVector3D& CVector3D::operator+=(CVector3D& other)
+{
+	m_x += other.getX();
+	m_y += other.getY();
+	m_z += other.getZ();
+	return *this;
+}
+
+// Operator -=
+CVector3D& CVector3D::operator-=(CVector3D& other)
+{
+	m_x -= other.getX();
+	m_y -= other.getY();
+	m_z -= other.getZ();
+	return *this;
+}
+
+// Operator *=
+CVector3D& CVector3D::operator*=(float factor)
+{
+	m_x *= factor;
+	m_y *= factor;
+	m_z *= factor;
+	return *this;
+}
+
+// Operator /=
+CVector3D& CVector3D::operator/=(float factor)
+{
+	m_x /= factor;
+	m_y /= factor;
+	m_z /= factor;
+	return *this;
+}
+
+// Operator +
+CVector3D& CVector3D::operator+(CVector3D& other) const
+{
+	CVector3D out = *this;
+	out += other;
+	return out;
+}
+
+// Operator -
+CVector3D& CVector3D::operator-(CVector3D& other) const
+{
+	CVector3D out = *this;
+	out -= other;
+	return out;
+}
+
+// Operator *
+CVector3D& CVector3D::operator*(float factor) const
+{
+	CVector3D out = *this;
+	out *= factor;
+	return out;
+}
+
+// Operator /
+CVector3D& CVector3D::operator/(float factor) const
+{
+	CVector3D out = *this;
+	out /= factor;
+	return out;
+}
