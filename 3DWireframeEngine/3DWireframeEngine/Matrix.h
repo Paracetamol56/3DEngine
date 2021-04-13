@@ -6,7 +6,7 @@ template<int S>
 class CMatrix
 {
 private:
-	std::array<std::array<float, S>, S> m_matrix;
+	std::array<std::array<float, S>, S> m_matrix = { 0.0f };
 
 public:
 	// Getters
