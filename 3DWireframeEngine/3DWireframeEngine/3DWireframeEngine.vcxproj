@@ -21,12 +21,14 @@
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="Main.h" />
+    <ClInclude Include="Matrix.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="Vector3D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Vector3D.cpp" />
   </ItemGroup>

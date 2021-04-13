@@ -3,11 +3,14 @@
 class CVector3D
 {
 private:
-	// 3D coordiantes
-	float m_x, m_y, m_z;
+	// 3D coordinates
+	float m_x = 0.0f;
+	float m_y = 0.0f;
+	float m_z = 0.0f;
 
 public:
 	// Public constructor and destructor
+	CVector3D();
 	CVector3D(float x, float y, float z);
 	~CVector3D();
 

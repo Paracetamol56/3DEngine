@@ -1,5 +1,10 @@
 #include "Vector3D.h"
 
+// Defalt constructor
+CVector3D::CVector3D()
+{
+}
+
 // Constructor
 CVector3D::CVector3D(float x, float y, float z)
 {

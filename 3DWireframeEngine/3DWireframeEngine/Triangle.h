@@ -6,7 +6,7 @@
 class CTriangle
 {
 private:
-	std::array<CVector3D, 3> m_Points = {CVector3D(0.0f, 0.0f, 0.0f), CVector3D(0.0f, 0.0f, 0.0f), CVector3D(0.0f, 0.0f, 0.0f) };
+	std::array<CVector3D, 3> m_Points = { CVector3D() };
 
 public:
 	// Public constructor and destructor
