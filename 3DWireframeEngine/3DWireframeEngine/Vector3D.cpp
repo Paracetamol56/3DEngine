@@ -135,7 +135,7 @@ CVector3D& CVector3D::operator/(float factor) const
 }
 
 // Operator *= a 4x4 matrix
-CVector3D& CVector3D::operator*=(CMatrix<4> mat)
+CVector3D& CVector3D::operator*=(CMatrix4 mat)
 {
 	m_x = m_x * mat.getMatrixAt(0, 0) + m_y * mat.getMatrixAt(1, 0) + m_z * mat.getMatrixAt(2, 0) + mat.getMatrixAt(3, 0);
 	m_y = m_x * mat.getMatrixAt(0, 1) + m_y * mat.getMatrixAt(1, 1) + m_z * mat.getMatrixAt(2, 1) + mat.getMatrixAt(3, 1);
@@ -150,7 +150,7 @@ CVector3D& CVector3D::operator*=(CMatrix<4> mat)
 }
 
 // Operator * a 4x4 matrix
-CVector3D CVector3D::operator*(CMatrix<4> mat) const
+CVector3D CVector3D::operator*(CMatrix4 mat) const
 {
 	CVector3D out = *this;
 	out *= mat;
