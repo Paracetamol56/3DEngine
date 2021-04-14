@@ -82,10 +82,26 @@ void CMain::Update(wxPaintEvent& event)
 		dc.DrawLine(projPoints.at(2).getX(), projPoints.at(2).getY(), projPoints.at(0).getX(), projPoints.at(0).getY());
 	}
 
-	// Draw the origin point in blue
+	// Set the origin point
 	CVector3D origin(0.0f, 0.0f, 0.0f);
 	origin *= m_projMat;
 	origin += translationVec;
+
+	// Draw the gizmo
+	CVector3D gizmoX(10.0f, 0.0f, 0.0f);
+	CVector3D gizmoY(0.0f, 10.0f, 0.0f);
+	CVector3D gizmoZ(0.0f, 0.0f, 10.0f);
+	gizmoX = gizmoX * m_projMat + translationVec;
+	gizmoY = gizmoY * m_projMat + translationVec;
+	gizmoZ = gizmoZ * m_projMat + translationVec;
+	dc.SetPen(wxPen(wxColor(255, 20, 20), 2));
+	dc.DrawLine(origin.getX(), origin.getY(), gizmoX.getX(), gizmoX.getY());
+	dc.SetPen(wxPen(wxColor(20, 255, 20), 2));
+	dc.DrawLine(origin.getX(), origin.getY(), gizmoY.getX(), gizmoY.getY());
+	dc.SetPen(wxPen(wxColor(20, 20, 255), 2));
+	dc.DrawLine(origin.getX(), origin.getY(), gizmoZ.getX(), gizmoZ.getY());
+
+	// Draw the origin point in blue
 	dc.SetPen(wxPen(wxColor(100, 100, 255), 2));
 	dc.DrawLine(origin.getX() + 3.0f, origin.getY(), origin.getX() - 3.0f, origin.getY());
 	dc.DrawLine(origin.getX(), origin.getY() + 3.0f, origin.getX(), origin.getY() - 3.0f);
