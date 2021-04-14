@@ -150,7 +150,7 @@ CVector3D& CVector3D::operator*=(CMatrix<4> mat)
 }
 
 // Operator * a 4x4 matrix
-CVector3D& CVector3D::operator*(CMatrix<4> mat) const
+CVector3D CVector3D::operator*(CMatrix<4> mat) const
 {
 	CVector3D out = *this;
 	out *= mat;

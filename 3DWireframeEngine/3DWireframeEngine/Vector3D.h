@@ -44,5 +44,5 @@ public:
 	CVector3D& operator / (float factor) const;
 
 	CVector3D& operator *= (CMatrix<4> mat);
-	CVector3D& operator * (CMatrix<4> mat) const;
+	CVector3D operator * (CMatrix<4> mat) const;
 };
