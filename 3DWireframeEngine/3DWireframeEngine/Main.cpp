@@ -9,23 +9,23 @@ CMain::CMain() : wxFrame(nullptr, wxID_ANY, "3D Engine", wxDefaultPosition, wxSi
 {
 	// ========= Example default cube mesh ========= //
 	// Bottom face
-	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, 0.0f, 1.0f), CVector3D(0.0f, 0.0f, 1.0f), CVector3D(0.0f, 0.0f, 0.0f)));
-	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, 0.0f, 1.0f), CVector3D(0.0f, 0.0f, 0.0f), CVector3D(1.0f, 0.0f, 0.0f)));
+	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, -1.0f, 1.0f), CVector3D(-1.0f, -1.0f, 1.0f), CVector3D(-1.0f, -1.0f, -1.0f)));
+	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, -1.0f, 1.0f), CVector3D(-1.0f, -1.0f, -1.0f), CVector3D(1.0f, -1.0f, -1.0f)));
 	// Front face
-	m_mesh.addTriangle(CTriangle(CVector3D(0.0f, 0.0f, 0.0f), CVector3D(0.0f, 1.0f, 0.0f), CVector3D(1.0f, 1.0f, 0.0f)));
-	m_mesh.addTriangle(CTriangle(CVector3D(0.0f, 0.0f, 0.0f), CVector3D(1.0f, 1.0f, 0.0f), CVector3D(1.0f, 0.0f, 0.0f)));
+	m_mesh.addTriangle(CTriangle(CVector3D(-1.0f, -1.0f, -1.0f), CVector3D(-1.0f, 1.0f, -1.0f), CVector3D(1.0f, 1.0f, -1.0f)));
+	m_mesh.addTriangle(CTriangle(CVector3D(-1.0f, -1.0f, -1.0f), CVector3D(1.0f, 1.0f, -1.0f), CVector3D(1.0f, -1.0f, -1.0f)));
 	// Right face
-	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, 0.0f, 0.0f), CVector3D(1.0f, 1.0f, 0.0f), CVector3D(1.0f, 1.0f, 1.0f)));
-	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, 0.0f, 0.0f), CVector3D(1.0f, 1.0f, 1.0f), CVector3D(1.0f, 0.0f, 1.0f)));
+	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, -1.0f, -1.0f), CVector3D(1.0f, 1.0f, -1.0f), CVector3D(1.0f, 1.0f, 1.0f)));
+	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, -1.0f, -1.0f), CVector3D(1.0f, 1.0f, 1.0f), CVector3D(1.0f, -1.0f, 1.0f)));
 	// Back face
-	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, 0.0f, 1.0f), CVector3D(1.0f, 1.0f, 1.0f), CVector3D(0.0f, 1.0f, 1.0f)));
-	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, 0.0f, 1.0f), CVector3D(0.0f, 1.0f, 1.0f), CVector3D(0.0f, 0.0f, 1.0f)));
+	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, -1.0f, -1.0f), CVector3D(1.0f, 1.0f, 1.0f), CVector3D(-1.0f, 1.0f, 1.0f)));
+	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, -1.0f, 1.0f), CVector3D(-1.0f, 1.0f, 1.0f), CVector3D(-1.0f, -1.0f, 1.0f)));
 	// Left face
-	m_mesh.addTriangle(CTriangle(CVector3D(0.0f, 0.0f, 1.0f), CVector3D(0.0f, 1.0f, 1.0f), CVector3D(0.0f, 1.0f, 0.0f)));
-	m_mesh.addTriangle(CTriangle(CVector3D(0.0f, 0.0f, 1.0f), CVector3D(0.0f, 1.0f, 0.0f), CVector3D(0.0f, 0.0f, 0.0f)));
+	m_mesh.addTriangle(CTriangle(CVector3D(-1.0f, -1.0f, 1.0f), CVector3D(-1.0f, 1.0f, 1.0f), CVector3D(-1.0f, 1.0f, -1.0f)));
+	m_mesh.addTriangle(CTriangle(CVector3D(-1.0f, -1.0f, 1.0f), CVector3D(-1.0f, 1.0f, -1.0f), CVector3D(-1.0f, -1.0f, -1.0f)));
 	// Top face
-	m_mesh.addTriangle(CTriangle(CVector3D(0.0f, 1.0f, 0.0f), CVector3D(0.0f, 1.0f, 1.0f), CVector3D(1.0f, 1.0f, 1.0f)));
-	m_mesh.addTriangle(CTriangle(CVector3D(0.0f, 1.0f, 0.0f), CVector3D(1.0f, 1.0f, 1.0f), CVector3D(1.0f, 1.0f, 0.0f)));
+	m_mesh.addTriangle(CTriangle(CVector3D(-1.0f, 1.0f, -1.0f), CVector3D(-1.0f, 1.0f, 1.0f), CVector3D(1.0f, 1.0f, 1.0f)));
+	m_mesh.addTriangle(CTriangle(CVector3D(-1.0f, 1.0f, -1.0f), CVector3D(1.0f, 1.0f, 1.0f), CVector3D(1.0f, 1.0f, -1.0f)));
 	// ======== END Example default cube mesh =======//
 
 	// Set the window backgorud color to black
@@ -48,6 +48,9 @@ CMain::~CMain()
 // Update function
 void CMain::Update(wxPaintEvent& event)
 {
+	// Create the main device context
+	wxPaintDC dc(this);
+
 	// Update the projection matrix
 	m_projMat.setMatrixAt(0, 0, m_AspectRatio * m_FovRad);
 	m_projMat.setMatrixAt(1, 1, m_FovRad);
@@ -56,27 +59,34 @@ void CMain::Update(wxPaintEvent& event)
 	m_projMat.setMatrixAt(2, 3, 1.0f);
 	m_projMat.setMatrixAt(3, 3, 0.0f);
 
-	wxPaintDC dc(this);
+	// Drawing triangles
 	CVector3D translationVec((float)GetSize().GetX() / 2, (float)GetSize().GetY() / 2, 0.0f);
 	for (CTriangle iTriangle : m_mesh.getTrianlges())
 	{
 		std::array<CVector3D, 3> projPoints = iTriangle.getPoints();
 
-		// Multiplying each point by the projection matrix
 		for (size_t i = 0; i < 3; i++)
 		{
+			// Multiplying each point by the projection matrix
 			projPoints.at(i) *= m_projMat;
-		}
-
-		// Add the translationVec to set the origin to the centre
-		for (size_t i = 0; i < 3; i++)
-		{
+			// Scale up the mesh
+			projPoints.at(i) *= 100.0f;
+			// Add the translationVec to set the origin to the centre
 			projPoints.at(i) += translationVec;
 		}
 
+		// Draw each edge of the triangle
 		dc.SetPen(wxPen(wxColor(255, 255, 255), 2));
 		dc.DrawLine(projPoints.at(0).getX(), projPoints.at(0).getY(), projPoints.at(1).getX(), projPoints.at(1).getY());
 		dc.DrawLine(projPoints.at(1).getX(), projPoints.at(1).getY(), projPoints.at(2).getX(), projPoints.at(2).getY());
 		dc.DrawLine(projPoints.at(2).getX(), projPoints.at(2).getY(), projPoints.at(0).getX(), projPoints.at(0).getY());
 	}
+
+	// Draw the origin point in blue
+	CVector3D origin(0.0f, 0.0f, 0.0f);
+	origin *= m_projMat;
+	origin += translationVec;
+	dc.SetPen(wxPen(wxColor(100, 100, 255), 2));
+	dc.DrawLine(origin.getX() + 3.0f, origin.getY(), origin.getX() - 3.0f, origin.getY());
+	dc.DrawLine(origin.getX(), origin.getY() + 3.0f, origin.getX(), origin.getY() - 3.0f);
 }
