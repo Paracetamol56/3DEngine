@@ -1,7 +1,7 @@
 #include "Main.h"
 
 BEGIN_EVENT_TABLE(CMain, wxPanel)
-	EVT_PAINT(CMain::Update)
+	EVT_PAINT(CMain::update)
 	EVT_KEY_DOWN(CMain::OnKeyDown)
 	EVT_SIZE(CMain::OnResize)
 END_EVENT_TABLE()
@@ -66,6 +66,8 @@ void CMain::update(wxPaintEvent& event)
 		{
 			// Multiplying each point by the projection matrix
 			projPoints.at(i) *= m_projMat;
+			// Multiplying each point by the rotation matrix
+			projPoints.at(i) *= m_rotMat;
 			// Scale up the mesh
 			projPoints.at(i) *= 100.0f;
 			// Add the translationVec to set the origin to the centre
@@ -79,6 +81,7 @@ void CMain::update(wxPaintEvent& event)
 		dc.DrawLine(projPoints.at(2).getX(), projPoints.at(2).getY(), projPoints.at(0).getX(), projPoints.at(0).getY());
 	}
 
+	// Draw gizmo and origin
 	{
 		// Set the origin point
 		CVector3D origin(0.0f, 0.0f, 0.0f);
@@ -120,17 +123,17 @@ void CMain::updateRotation()
 	rotMatX.setMatrixAt(3, 3, 1.0f);
 
 	// Compute the Z rotation matrix
-	rotMatZ.setMatrixAt(0, 0, cosf(m_thetaX));
-	rotMatZ.setMatrixAt(0, 1, sinf(m_thetaX));
-	rotMatZ.setMatrixAt(1, 0, -sinf(m_thetaX));
-	rotMatZ.setMatrixAt(1, 1, cosf(m_thetaX));
+	rotMatZ.setMatrixAt(0, 0, cosf(m_thetaZ));
+	rotMatZ.setMatrixAt(0, 1, sinf(m_thetaZ));
+	rotMatZ.setMatrixAt(1, 0, -sinf(m_thetaZ));
+	rotMatZ.setMatrixAt(1, 1, cosf(m_thetaZ));
 	rotMatZ.setMatrixAt(2, 2, 1.0f);
 	rotMatZ.setMatrixAt(3, 3, 1.0f);
 
 	m_rotMat.setZeros();
 
 	// Multiply the two matrix together
-	m_rotMat = rotMatX * rotMatZ;
+	m_rotMat = rotMatX; //* rotMatZ;
 }
 
 // Key event handling
@@ -148,6 +151,9 @@ void CMain::OnKeyDown(wxKeyEvent& event)
 		m_thetaX -= 1.0f;
 		break;
 	}
+	case wxKeyCode::WXK_NUMPAD0:
+		this->Close();
+		break;
 	default:
 		break;
 	}

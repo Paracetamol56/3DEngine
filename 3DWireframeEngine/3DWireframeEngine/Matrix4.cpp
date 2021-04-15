@@ -56,11 +56,20 @@ CMatrix4& CMatrix4::operator*(const CMatrix4 other) const
 // Initialize the matrix to 0
 CMatrix4& CMatrix4::setZeros()
 {
-	// TODO: insérer une instruction return ici
+	m_matrix = { 0 };
+	return *this;
 }
 
 // Initialize the matrix to the unit matrix
 CMatrix4& CMatrix4::setIdentity()
 {
-	// TODO: insérer une instruction return ici
+	setZeros();
+	for (size_t i = 0; i < 4; ++i) {
+		for (size_t j = 0; j < 4; ++j) {
+			if (i == j) {
+				m_matrix[i][j] = 1;
+			}
+		}
+	}
+	return *this;
 }

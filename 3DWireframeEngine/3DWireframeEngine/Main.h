@@ -29,7 +29,7 @@ private:
 
 	// Rotation angle
 	float m_thetaX = 0.0f;
-	float m_thetaY = 0.0f;
+	float m_thetaZ = 0.0f;
 
 public:
 	// Public constructor and destructor
