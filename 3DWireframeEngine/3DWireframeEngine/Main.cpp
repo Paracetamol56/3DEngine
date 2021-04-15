@@ -32,14 +32,6 @@ CMain::CMain() : wxFrame(nullptr, wxID_ANY, "3D Engine", wxDefaultPosition, wxSi
 
 	// Set the window backgorud color to black
 	SetBackgroundColour(wxColor(20, 20, 20));
-
-	// Initialize the projection matrix
-	m_projMat.setMatrixAt(0, 0, m_AspectRatio * m_FovRad);
-	m_projMat.setMatrixAt(1, 1, m_FovRad);
-	m_projMat.setMatrixAt(2, 2, m_Far / (m_Far - m_Near));
-	m_projMat.setMatrixAt(3, 2, (- m_Far * m_Near) / (m_Far - m_Near));
-	m_projMat.setMatrixAt(2, 3, 1.0f);
-	m_projMat.setMatrixAt(3, 3, 0.0f);
 }
 
 // Destructor
@@ -48,8 +40,11 @@ CMain::~CMain()
 }
 
 // Update function
-void CMain::Update(wxPaintEvent& event)
+void CMain::update(wxPaintEvent& event)
 {
+	// Update the rotation matrix
+	updateRotation();
+
 	// Create the main device context
 	wxPaintDC dc(this);
 
@@ -111,18 +106,46 @@ void CMain::Update(wxPaintEvent& event)
 	}
 }
 
+void CMain::updateRotation()
+{
+	CMatrix4 rotMatX;
+	CMatrix4 rotMatZ;
+
+	// Compute the X rotation matrix
+	rotMatX.setMatrixAt(0, 0, 1.0f);
+	rotMatX.setMatrixAt(1, 1, cosf(m_thetaX));
+	rotMatX.setMatrixAt(1, 2, sinf(m_thetaX));
+	rotMatX.setMatrixAt(2, 1, -sinf(m_thetaX));
+	rotMatX.setMatrixAt(2, 2, cosf(m_thetaX));
+	rotMatX.setMatrixAt(3, 3, 1.0f);
+
+	// Compute the Z rotation matrix
+	rotMatZ.setMatrixAt(0, 0, cosf(m_thetaX));
+	rotMatZ.setMatrixAt(0, 1, sinf(m_thetaX));
+	rotMatZ.setMatrixAt(1, 0, -sinf(m_thetaX));
+	rotMatZ.setMatrixAt(1, 1, cosf(m_thetaX));
+	rotMatZ.setMatrixAt(2, 2, 1.0f);
+	rotMatZ.setMatrixAt(3, 3, 1.0f);
+
+	m_rotMat.setZeros();
+
+	// Multiply the two matrix together
+	m_rotMat = rotMatX * rotMatZ;
+}
+
+// Key event handling
 void CMain::OnKeyDown(wxKeyEvent& event)
 {
 	switch (event.GetKeyCode())
 	{
 	case wxKeyCode::WXK_LEFT:
 	{
-
+		m_thetaX += 1.0f;
 		break;
 	}
 	case wxKeyCode::WXK_RIGHT:
 	{
-
+		m_thetaX -= 1.0f;
 		break;
 	}
 	default:

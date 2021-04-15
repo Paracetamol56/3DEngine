@@ -24,13 +24,26 @@ private:
 	// Projection matrix
 	CMatrix4 m_projMat;
 
+	// Rotation matrix
+	CMatrix4 m_rotMat;
+
+	// Rotation angle
+	float m_thetaX = 0.0f;
+	float m_thetaY = 0.0f;
+
 public:
 	// Public constructor and destructor
 	CMain();
 	~CMain();
 
 public:
-	void Update(wxPaintEvent& event);
+	// Update content
+	void update(wxPaintEvent& event);
+
+	// Update rotation matrix
+	void updateRotation();
+
+	// Key event handling
 	void OnKeyDown(wxKeyEvent& event);
 	void OnResize(wxSizeEvent& event);
 
