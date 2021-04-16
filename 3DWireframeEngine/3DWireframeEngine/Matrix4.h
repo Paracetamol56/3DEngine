@@ -15,7 +15,7 @@ public:
 public:
 	// Getters
 	std::array<std::array<float, 4>, 4> getMatrix();
-	float getMatrixAt (int i, int j) const;
+	float getMatrixAt (size_t i, size_t j) const;
 
 	// Setters
 	void setMatrixAt (size_t i, size_t j, float value);
