@@ -37,7 +37,7 @@ CMain::CMain() : wxFrame(nullptr, wxID_ANY, "3D Engine", wxDefaultPosition, wxSi
 	// Create the main device context
 	m_dc = new wxClientDC(this);
 
-	update();
+	updateRotation();
 }
 
 // Destructor
@@ -67,12 +67,18 @@ void CMain::update()
 
 		for (size_t i = 0; i < 3; i++)
 		{
-			// Multiplying each point by the projection matrix
-			projPoints.at(i) *= m_projMat;
 			// Multiplying each point by the rotation matrix
 			projPoints.at(i) *= m_rotMat;
+
+			// Offset 
+			projPoints.at(i).setZ(projPoints.at(i).getZ() + 10.0);
+
+			// Multiplying each point by the projection matrix
+			projPoints.at(i) *= m_projMat;
+			
 			// Scale up the mesh
 			projPoints.at(i) *= 100.0f;
+
 			// Add the translationVec to set the origin to the centre
 			projPoints.at(i) += translationVec;
 		}
@@ -122,6 +128,17 @@ void CMain::updateRotation()
 	CMatrix4 rotMatZ;
 
 	// Compute the X rotation matrix
+
+	/*
+	1.0  0.0             0.0             0.0
+
+	0.0  cosf(m_thetaX)  sinf(m_thetaX)  0.0
+
+	0.0  -sinf(m_thetaX) cosf(m_thetaX)  0.0
+
+	0.0  0.0             0.0             1.0
+	*/
+
 	rotMatX.setMatrixAt(0, 0, 1.0f);
 	rotMatX.setMatrixAt(1, 1, cosf(m_thetaX));
 	rotMatX.setMatrixAt(1, 2, sinf(m_thetaX));
@@ -130,6 +147,17 @@ void CMain::updateRotation()
 	rotMatX.setMatrixAt(3, 3, 1.0f);
 
 	// Compute the Z rotation matrix
+
+	/*
+	cosf(m_thetaZ)   sinf(m_thetaZ)  0.0  0.0
+
+	-sinf(m_thetaZ)  cosf(m_thetaZ)  0.0  0.0
+
+	0.0              0.0             1.0  0.0
+
+	0.0              0.0             0.0  1.0
+	*/
+
 	rotMatZ.setMatrixAt(0, 0, cosf(m_thetaZ));
 	rotMatZ.setMatrixAt(0, 1, sinf(m_thetaZ));
 	rotMatZ.setMatrixAt(1, 0, -sinf(m_thetaZ));
