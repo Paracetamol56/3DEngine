@@ -47,13 +47,13 @@ public:
 	void updateRotation();
 
 	// Key down event
-	void OnKeyDown(wxKeyEvent& event);
+	void onKeyDown(wxKeyEvent& event);
 
 	// Resize event
-	void OnResize(wxSizeEvent& event);
+	void onResize(wxSizeEvent& event);
 
 	// Close event
-	void OnClose(wxCloseEvent& event);
+	void onClose(wxCloseEvent& event);
 
 	DECLARE_EVENT_TABLE()
 };

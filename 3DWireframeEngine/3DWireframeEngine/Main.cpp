@@ -1,9 +1,9 @@
 #include "Main.h"
 
 BEGIN_EVENT_TABLE(CMain, wxPanel)
-	EVT_KEY_DOWN(CMain::OnKeyDown)
-	EVT_SIZE(CMain::OnResize)
-	EVT_CLOSE(CMain::OnClose)
+	EVT_KEY_DOWN(CMain::onKeyDown)
+	EVT_SIZE(CMain::onResize)
+	EVT_CLOSE(CMain::onClose)
 END_EVENT_TABLE()
 
 // Constructor
@@ -142,8 +142,8 @@ void CMain::updateRotation()
 	update();
 }
 
-// Key event handling
-void CMain::OnKeyDown(wxKeyEvent& event)
+// Key down event handling
+void CMain::onKeyDown(wxKeyEvent& event)
 {
 	switch (event.GetKeyCode())
 	{
@@ -166,13 +166,15 @@ void CMain::OnKeyDown(wxKeyEvent& event)
 	updateRotation();
 }
 
-void CMain::OnResize(wxSizeEvent& event)
+// Resising event handling
+void CMain::onResize(wxSizeEvent& event)
 {
 	updateRotation();
 	event.Skip();
 }
 
-void CMain::OnClose(wxCloseEvent& event)
+// Closing envent handling
+void CMain::onClose(wxCloseEvent& event)
 {
 	if (wxMessageBox("You are about to close... continue closing?",
 		"Please confirm",
