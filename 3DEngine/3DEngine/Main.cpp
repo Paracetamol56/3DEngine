@@ -12,23 +12,23 @@ CMain::CMain() : wxFrame(nullptr, wxID_ANY, "3D Engine", wxDefaultPosition, wxSi
 {
 	// ========= Example default cube mesh ========= //
 	// Bottom face
-	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, -1.0f, 1.0f), CVector3D(-1.0f, -1.0f, 1.0f), CVector3D(-1.0f, -1.0f, -1.0f)));
-	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, -1.0f, 1.0f), CVector3D(-1.0f, -1.0f, -1.0f), CVector3D(1.0f, -1.0f, -1.0f)));
+	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, 0.0f, 1.0f), CVector3D(0.0f, 0.0f, 1.0f), CVector3D(0.0f, 0.0f, 0.0f)));
+	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, 0.0f, 1.0f), CVector3D(0.0f, 0.0f, 0.0f), CVector3D(1.0f, 0.0f, 0.0f)));
 	// Front face
-	m_mesh.addTriangle(CTriangle(CVector3D(-1.0f, -1.0f, -1.0f), CVector3D(-1.0f, 1.0f, -1.0f), CVector3D(1.0f, 1.0f, -1.0f)));
-	m_mesh.addTriangle(CTriangle(CVector3D(-1.0f, -1.0f, -1.0f), CVector3D(1.0f, 1.0f, -1.0f), CVector3D(1.0f, -1.0f, -1.0f)));
+	m_mesh.addTriangle(CTriangle(CVector3D(0.0f, 0.0f, 0.0f), CVector3D(0.0f, 1.0f, 0.0f), CVector3D(1.0f, 1.0f, 0.0f)));
+	m_mesh.addTriangle(CTriangle(CVector3D(0.0f, 0.0f, 0.0f), CVector3D(1.0f, 1.0f, 0.0f), CVector3D(1.0f, 0.0f, 0.0f)));
 	// Right face
-	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, -1.0f, -1.0f), CVector3D(1.0f, 1.0f, -1.0f), CVector3D(1.0f, 1.0f, 1.0f)));
-	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, -1.0f, -1.0f), CVector3D(1.0f, 1.0f, 1.0f), CVector3D(1.0f, -1.0f, 1.0f)));
+	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, 0.0f, 0.0f), CVector3D(1.0f, 1.0f, 0.0f), CVector3D(1.0f, 1.0f, 1.0f)));
+	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, 0.0f, 0.0f), CVector3D(1.0f, 1.0f, 1.0f), CVector3D(1.0f, 0.0f, 1.0f)));
 	// Back face
-	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, -1.0f, 1.0f), CVector3D(1.0f, 1.0f, 1.0f), CVector3D(-1.0f, 1.0f, 1.0f)));
-	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, -1.0f, 1.0f), CVector3D(-1.0f, 1.0f, 1.0f), CVector3D(-1.0f, -1.0f, 1.0f)));
+	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, 0.0f, 1.0f), CVector3D(1.0f, 1.0f, 1.0f), CVector3D(0.0f, 1.0f, 1.0f)));
+	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, 0.0f, 1.0f), CVector3D(0.0f, 1.0f, 1.0f), CVector3D(0.0f, 0.0f, 1.0f)));
 	// Left face
-	m_mesh.addTriangle(CTriangle(CVector3D(-1.0f, -1.0f, 1.0f), CVector3D(-1.0f, 1.0f, -1.0f), CVector3D(-1.0f, 1.0f, -1.0f)));
-	m_mesh.addTriangle(CTriangle(CVector3D(-1.0f, -1.0f, 1.0f), CVector3D(-1.0f, 1.0f, -1.0f), CVector3D(-1.0f, -1.0f, -1.0f)));
+	m_mesh.addTriangle(CTriangle(CVector3D(0.0f, 0.0f, 1.0f), CVector3D(0.0f, 1.0f, 1.0f), CVector3D(0.0f, 1.0f, 0.0f)));
+	m_mesh.addTriangle(CTriangle(CVector3D(0.0f, 0.0f, 1.0f), CVector3D(0.0f, 1.0f, 0.0f), CVector3D(0.0f, 0.0f, 0.0f)));
 	// Top face
-	m_mesh.addTriangle(CTriangle(CVector3D(-1.0f, 1.0f, -1.0f), CVector3D(-1.0f, 1.0f, 1.0f), CVector3D(1.0f, 1.0f, 1.0f)));
-	m_mesh.addTriangle(CTriangle(CVector3D(-1.0f, 1.0f, -1.0f), CVector3D(1.0f, 1.0f, 1.0f), CVector3D(1.0f, 1.0f, -1.0f)));
+	m_mesh.addTriangle(CTriangle(CVector3D(0.0f, 1.0f, 0.0f), CVector3D(0.0f, 1.0f, 1.0f), CVector3D(1.0f, 1.0f, 1.0f)));
+	m_mesh.addTriangle(CTriangle(CVector3D(0.0f, 1.0f, 0.0f), CVector3D(1.0f, 1.0f, 1.0f), CVector3D(1.0f, 1.0f, 0.0f)));
 	// ======== END Example default cube mesh =======//
 
 	// Set the window backgorud color to black
@@ -64,6 +64,8 @@ void CMain::update()
 	for (CTriangle iTriangle : m_mesh.getTrianlges())
 	{
 		std::array<CVector3D, 3> projPoints = iTriangle.getPoints();
+		CVector3D iMassCenter = iTriangle.getMassCenter();
+		CVector3D iNormal = iTriangle.getNormal();
 
 		for (size_t i = 0; i < 3; i++)
 		{
@@ -83,11 +85,28 @@ void CMain::update()
 			projPoints.at(i) += translationVec;
 		}
 
+		iMassCenter *= m_rotMat;
+		iMassCenter.setZ(iMassCenter.getZ() + m_zOffset);
+		iMassCenter *= m_projMat;
+		iMassCenter *= 1000.0f;
+		iMassCenter += translationVec;
+
+		iNormal *= m_rotMat;
+		iNormal.setZ(iNormal.getZ() + m_zOffset);
+		iNormal *= m_projMat;
+		iNormal *= 1000.0f;
+		iNormal += translationVec;
+
 		// Draw each edge of the triangle
 		m_dc->SetPen(wxPen(wxColor(255, 255, 255), 2));
 		m_dc->DrawLine(projPoints.at(0).getX(), projPoints.at(0).getY(), projPoints.at(1).getX(), projPoints.at(1).getY());
 		m_dc->DrawLine(projPoints.at(1).getX(), projPoints.at(1).getY(), projPoints.at(2).getX(), projPoints.at(2).getY());
 		m_dc->DrawLine(projPoints.at(2).getX(), projPoints.at(2).getY(), projPoints.at(0).getX(), projPoints.at(0).getY());
+
+
+
+		m_dc->SetPen(wxPen(wxColor(255, 100, 0), 1));
+		m_dc->DrawLine(iMassCenter.getX(), iMassCenter.getY(), iNormal.getX(), iNormal.getY());
 	}
 
 	// Draw gizmo and origin
@@ -140,7 +159,7 @@ void CMain::update()
 	// Print upper left corner informativ text
 	{
 		m_dc->SetTextForeground(wxColor(255, 255, 255));
-		m_dc->DrawText(wxString("RotXY: " + std::to_string(m_thetaX) + ", " + std::to_string(m_thetaY)), 10, 10);
+		m_dc->DrawText(wxString("RotXYZ: " + std::to_string(m_thetaX) + ", " + std::to_string(m_thetaY) + ", " + std::to_string(m_thetaZ)), 10, 10);
 		m_dc->DrawText(wxString("PanXY: " + std::to_string(0.0f) + ", " + std::to_string(0.0f)), 10, 25);
 		m_dc->DrawText(wxString("ZOffset: " + std::to_string(m_zOffset)), 10, 40);
 	}

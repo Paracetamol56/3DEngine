@@ -32,25 +32,22 @@ std::array<CVector3D, 3> CTriangle::getPoints() const
     return m_Points;
 }
 
+CVector3D CTriangle::getMassCenter() const
+{
+    // Center point
+    CVector3D massCenter
+    (
+        (m_Points[0].getX() + m_Points[1].getX() + m_Points[2].getX()) / 3,
+        (m_Points[0].getY() + m_Points[1].getY() + m_Points[2].getY()) / 3,
+        (m_Points[0].getZ() + m_Points[1].getZ() + m_Points[2].getZ()) / 3
+    );
+
+    return massCenter;
+}
+
 // Normal getter
 CVector3D CTriangle::getNormal() const
 {
-    // Point 0 to Point 1 vector
-    /*CVector3D planVector1
-    (
-        m_Points[1].getX() - m_Points[0].getX(),
-        m_Points[1].getY() - m_Points[0].getY(),
-        m_Points[1].getZ() - m_Points[0].getZ()
-    );*/
-
-    // Point 0 to Point 2 vector
-    /*CVector3D planVector2
-    (
-        m_Points[2].getX() - m_Points[0].getX(),
-        m_Points[2].getY() - m_Points[0].getY(),
-        m_Points[2].getZ() - m_Points[0].getZ()
-    );*/
-    
     // Normal vector
     CVector3D normal
     (

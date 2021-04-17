@@ -17,6 +17,7 @@ public:
 
 	// Getters
 	std::array<CVector3D, 3> getPoints() const;
+	CVector3D getMassCenter() const;
 	CVector3D getNormal() const;
 
 	// Setters
