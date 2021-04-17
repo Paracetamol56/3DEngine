@@ -49,16 +49,14 @@ void CMain::update()
 {
 	m_dc->Clear();
 
-	// Update the rotation matrix
-	//updateRotation();
-
 	// Update the projection matrix
+	m_FovRad = 1.0f / tanf(m_Fov / 2.0f * (180.0f / 3.14159f));
+
 	m_projMat.setMatrixAt(0, 0, m_FovRad);
 	m_projMat.setMatrixAt(1, 1, m_FovRad);
-	m_projMat.setMatrixAt(2, 2, m_Far / (m_Far - m_Near));
+	m_projMat.setMatrixAt(2, 2, -m_Far / (m_Far - m_Near));
 	m_projMat.setMatrixAt(3, 2, (-m_Far * m_Near) / (m_Far - m_Near));
-	m_projMat.setMatrixAt(2, 3, 1.0f);
-	m_projMat.setMatrixAt(3, 3, 0.0f);
+	m_projMat.setMatrixAt(2, 3, -1.0f);
 
 	// Drawing triangles
 	CVector3D translationVec((float)GetSize().GetX() / 2, (float)GetSize().GetY() / 2, 0.0f);
@@ -68,12 +66,14 @@ void CMain::update()
 
 		for (size_t i = 0; i < 3; i++)
 		{
+			// Offset
+			projPoints.at(i).setZ(projPoints.at(i).getZ() * 3.0);
 			// Multiplying each point by the projection matrix
 			projPoints.at(i) *= m_projMat;
 			// Multiplying each point by the rotation matrix
 			projPoints.at(i) *= m_rotMat;
 			// Scale up the mesh
-			projPoints.at(i) *= 100.0f;
+			projPoints.at(i) *= 300.0f;
 			// Add the translationVec to set the origin to the centre
 			projPoints.at(i) += translationVec;
 		}
@@ -92,18 +92,22 @@ void CMain::update()
 		origin *= m_projMat;
 		origin += translationVec;
 
-		// Draw the gizmo
+		// Create 3 vectors for the gizmo
 		CVector3D gizmoX(10.0f, 0.0f, 0.0f);
 		CVector3D gizmoY(0.0f, 10.0f, 0.0f);
 		CVector3D gizmoZ(0.0f, 0.0f, 10.0f);
+
+		// Apply modifications to each vector
 		gizmoX = gizmoX * m_projMat * m_rotMat + translationVec;
 		gizmoY = gizmoY * m_projMat * m_rotMat + translationVec;
 		gizmoZ = gizmoZ * m_projMat * m_rotMat + translationVec;
-		m_dc->SetPen(wxPen(wxColor(255, 20, 20), 2));
+
+		// Draw the gizmo
+		m_dc->SetPen(wxPen(wxColor(255, 20, 20), 1));
 		m_dc->DrawLine(origin.getX(), origin.getY(), gizmoX.getX(), gizmoX.getY());
-		m_dc->SetPen(wxPen(wxColor(20, 255, 20), 2));
+		m_dc->SetPen(wxPen(wxColor(20, 255, 20), 1));
 		m_dc->DrawLine(origin.getX(), origin.getY(), gizmoY.getX(), gizmoY.getY());
-		m_dc->SetPen(wxPen(wxColor(20, 20, 255), 2));
+		m_dc->SetPen(wxPen(wxColor(20, 20, 255), 1));
 		m_dc->DrawLine(origin.getX(), origin.getY(), gizmoZ.getX(), gizmoZ.getY());
 
 		// Draw the origin point in blue
@@ -139,6 +143,7 @@ void CMain::updateRotation()
 	// Multiply the two matrix together
 	m_rotMat = rotMatX * rotMatZ;
 
+	// Render with the new matrix
 	update();
 }
 
@@ -149,22 +154,22 @@ void CMain::onKeyDown(wxKeyEvent& event)
 	{
 	case wxKeyCode::WXK_LEFT:
 	{
-		m_thetaZ += 1.0f;
+		m_thetaZ += 0.1f;
 		break;
 	}
 	case wxKeyCode::WXK_RIGHT:
 	{
-		m_thetaZ -= 1.0f;
+		m_thetaZ -= 0.1f;
 		break;
 	}
 	case wxKeyCode::WXK_UP:
 	{
-		m_thetaX += 1.0f;
+		m_thetaX += 0.1f;
 		break;
 	}
 	case wxKeyCode::WXK_DOWN:
 	{
-		m_thetaX -= 1.0f;
+		m_thetaX -= 0.1f;
 		break;
 	}
 	default:
@@ -176,8 +181,8 @@ void CMain::onKeyDown(wxKeyEvent& event)
 // Resising event handling
 void CMain::onResize(wxSizeEvent& event)
 {
+	m_AspectRatio = (float)GetSize().GetX() / (float)GetSize().GetY();
 	updateRotation();
-	event.Skip();
 }
 
 // Closing envent handling
