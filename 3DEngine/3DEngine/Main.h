@@ -17,7 +17,7 @@ private:
 	// Projection parametres
 	float m_Near = 0.1f;
 	float m_Far = 1000.0f;
-	float m_Fov = 90.0f;
+	float m_Fov = 10.0f;
 	float m_AspectRatio = (float)GetSize().GetX() / (float)GetSize().GetY();
 	float m_FovRad = 1.0f / tanf(m_Fov * 0.5f / 180.0f * 3.14159f);
 

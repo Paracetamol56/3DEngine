@@ -75,7 +75,7 @@ void CMain::update()
 
 			// Multiplying each point by the projection matrix
 			projPoints.at(i) *= m_projMat;
-			
+
 			// Scale up the mesh
 			projPoints.at(i) *= 1000.0f;
 
@@ -175,22 +175,22 @@ void CMain::onKeyDown(wxKeyEvent& event)
 	{
 	case wxKeyCode::WXK_LEFT:
 	{
-		m_thetaX += 0.1f;
+		m_thetaX += 0.1570796f;
 		break;
 	}
 	case wxKeyCode::WXK_RIGHT:
 	{
-		m_thetaX -= 0.1f;
+		m_thetaX -= 0.1570796f;
 		break;
 	}
 	case wxKeyCode::WXK_UP:
 	{
-		m_thetaZ += 0.1f;
+		m_thetaZ += 0.1570796f;
 		break;
 	}
 	case wxKeyCode::WXK_DOWN:
 	{
-		m_thetaZ -= 0.1f;
+		m_thetaZ -= 0.1570796f;
 		break;
 	}
 	default:
