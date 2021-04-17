@@ -150,51 +150,19 @@ void CMain::updateRotation()
 {
 	// More infos : https://en.wikipedia.org/wiki/Rotation_matrix
 
-	CMatrix4 rotMatX;
-	CMatrix4 rotMatY;
+	m_rotMat.setMatrixAt(0, 0, cosf(m_thetaX) * cosf(m_thetaY));
+	m_rotMat.setMatrixAt(0, 1, cosf(m_thetaX) * sinf(m_thetaY) * sinf(m_thetaZ) - sinf(m_thetaX) * cosf(m_thetaZ));
+	m_rotMat.setMatrixAt(0, 2, cosf(m_thetaX) * sinf(m_thetaY) * cosf(m_thetaZ) + sinf(m_thetaX) * sinf(m_thetaZ));
 
-	// X rotation matrix
+	m_rotMat.setMatrixAt(1, 0, sinf(m_thetaX) * cosf(m_thetaY));
+	m_rotMat.setMatrixAt(1, 1, sinf(m_thetaX) * sinf(m_thetaY) * sinf(m_thetaZ) + cosf(m_thetaX) * cosf(m_thetaZ));
+	m_rotMat.setMatrixAt(1, 2, sinf(m_thetaX) * sinf(m_thetaY) * cosf(m_thetaZ) - cosf(m_thetaX) * sinf(m_thetaZ));
 
-	/*
-	1.0  0.0             0.0              0.0
+	m_rotMat.setMatrixAt(2, 0, -sinf(m_thetaY));
+	m_rotMat.setMatrixAt(2, 1, cosf(m_thetaY) * sinf(m_thetaZ));
+	m_rotMat.setMatrixAt(2, 2, cosf(m_thetaY) * cosf(m_thetaZ));
 
-	0.0  cosf(m_thetaX)  -sinf(m_thetaX)  0.0
-
-	0.0  sinf(m_thetaX)  cosf(m_thetaX)   0.0
-
-	0.0  0.0             0.0              1.0
-	*/
-
-	rotMatX.setMatrixAt(0, 0, 1.0f);
-	rotMatX.setMatrixAt(1, 1, cosf(m_thetaX));
-	rotMatX.setMatrixAt(1, 2, -sinf(m_thetaX));
-	rotMatX.setMatrixAt(2, 1, sinf(m_thetaX));
-	rotMatX.setMatrixAt(2, 2, cosf(m_thetaX));
-	rotMatX.setMatrixAt(3, 3, 1.0f);
-
-	// Y rotation matrix
-
-	/*
-	cosf(m_thetaY)   0.0  sinf(m_thetaY)  0.0
-				    
-	0.0              1.0  0.0             0.0
-				    
-	-sinf(m_thetaY)  0.0  cosf(m_thetaY)  0.0
-				    
-	0.0              0.0  0.0             1.0
-	*/
-
-	rotMatY.setMatrixAt(0, 0, cosf(m_thetaY));
-	rotMatY.setMatrixAt(0, 2, -sinf(m_thetaY));
-	rotMatY.setMatrixAt(1, 1, 1.0f);
-	rotMatY.setMatrixAt(2, 0, sinf(m_thetaY));
-	rotMatY.setMatrixAt(2, 2, cosf(m_thetaY));
-	rotMatY.setMatrixAt(3, 3, 1.0f);
-
-	m_rotMat.setZeros();
-
-	// Multiply the two matrix together
-	m_rotMat = rotMatX * rotMatY;
+	m_rotMat.setMatrixAt(3, 3, 1.0f);
 
 	// Render with the new matrix
 	update();
@@ -207,12 +175,12 @@ void CMain::onKeyDown(wxKeyEvent& event)
 	{
 	case wxKeyCode::WXK_LEFT:
 	{
-		m_thetaY += 0.1f;
+		m_thetaZ += 0.1f;
 		break;
 	}
 	case wxKeyCode::WXK_RIGHT:
 	{
-		m_thetaY -= 0.1f;
+		m_thetaZ -= 0.1f;
 		break;
 	}
 	case wxKeyCode::WXK_UP:

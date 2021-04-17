@@ -33,8 +33,9 @@ private:
 	wxClientDC* m_dc;
 
 	// Rotation angle
-	float m_thetaX = 0.0f;
-	float m_thetaY = 0.0f;
+	float m_thetaX = 0.0f; // yaw
+	float m_thetaY = 0.0f; // pitch
+	float m_thetaZ = 0.0f; // roll
 
 public:
 	// Public constructor and destructor
