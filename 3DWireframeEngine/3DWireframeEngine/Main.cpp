@@ -136,6 +136,14 @@ void CMain::update()
 		m_dc->DrawLine(origin.getX() + 3.0f, origin.getY(), origin.getX() - 3.0f, origin.getY());
 		m_dc->DrawLine(origin.getX(), origin.getY() + 3.0f, origin.getX(), origin.getY() - 3.0f);
 	}
+
+	// Print upper left corner informativ text
+	{
+		m_dc->SetTextForeground(wxColor(255, 255, 255));
+		m_dc->DrawText(wxString("RotXY" + std::to_string(m_thetaX) + ", " + std::to_string(m_thetaY)), 10, 10);
+		m_dc->DrawText(wxString("PanXY" + std::to_string(0.0f) + ", " + std::to_string(0.0f)), 10, 25);
+		m_dc->DrawText(wxString("ZOffset" + std::to_string(m_zOffset)), 10, 40);
+	}
 }
 
 void CMain::updateRotation()
