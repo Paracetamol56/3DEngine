@@ -46,7 +46,7 @@ CMatrix4& CMatrix4::operator*(const CMatrix4 other) const
 		{
 			for (size_t k = 0; k < 4; ++k)
 			{
-				mat.setMatrixAt(i, j, mat.getMatrixAt(i, j) + (mat.getMatrixAt(i, k) * other.getMatrixAt(k, j)));
+				mat.setMatrixAt(i, j, mat.getMatrixAt(i, j) + (this->getMatrixAt(i, k) * other.getMatrixAt(k, j)));
 			}
 		}
 	}

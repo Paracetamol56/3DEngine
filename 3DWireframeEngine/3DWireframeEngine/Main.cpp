@@ -96,9 +96,9 @@ void CMain::update()
 		CVector3D gizmoX(10.0f, 0.0f, 0.0f);
 		CVector3D gizmoY(0.0f, 10.0f, 0.0f);
 		CVector3D gizmoZ(0.0f, 0.0f, 10.0f);
-		gizmoX = gizmoX * m_projMat + translationVec;
-		gizmoY = gizmoY * m_projMat + translationVec;
-		gizmoZ = gizmoZ * m_projMat + translationVec;
+		gizmoX = gizmoX * m_projMat * m_rotMat + translationVec;
+		gizmoY = gizmoY * m_projMat * m_rotMat + translationVec;
+		gizmoZ = gizmoZ * m_projMat * m_rotMat + translationVec;
 		m_dc->SetPen(wxPen(wxColor(255, 20, 20), 2));
 		m_dc->DrawLine(origin.getX(), origin.getY(), gizmoX.getX(), gizmoX.getY());
 		m_dc->SetPen(wxPen(wxColor(20, 255, 20), 2));
@@ -137,7 +137,7 @@ void CMain::updateRotation()
 	m_rotMat.setZeros();
 
 	// Multiply the two matrix together
-	m_rotMat = rotMatX; //* rotMatZ;
+	m_rotMat = rotMatX * rotMatZ;
 
 	update();
 }
@@ -149,17 +149,24 @@ void CMain::onKeyDown(wxKeyEvent& event)
 	{
 	case wxKeyCode::WXK_LEFT:
 	{
-		m_thetaX += 1.0f;
+		m_thetaZ += 1.0f;
 		break;
 	}
 	case wxKeyCode::WXK_RIGHT:
 	{
+		m_thetaZ -= 1.0f;
+		break;
+	}
+	case wxKeyCode::WXK_UP:
+	{
+		m_thetaX += 1.0f;
+		break;
+	}
+	case wxKeyCode::WXK_DOWN:
+	{
 		m_thetaX -= 1.0f;
 		break;
 	}
-	case wxKeyCode::WXK_NUMPAD0:
-		this->Close();
-		break;
 	default:
 		break;
 	}
