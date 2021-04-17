@@ -140,9 +140,9 @@ void CMain::update()
 	// Print upper left corner informativ text
 	{
 		m_dc->SetTextForeground(wxColor(255, 255, 255));
-		m_dc->DrawText(wxString("RotXY" + std::to_string(m_thetaX) + ", " + std::to_string(m_thetaY)), 10, 10);
-		m_dc->DrawText(wxString("PanXY" + std::to_string(0.0f) + ", " + std::to_string(0.0f)), 10, 25);
-		m_dc->DrawText(wxString("ZOffset" + std::to_string(m_zOffset)), 10, 40);
+		m_dc->DrawText(wxString("RotXY: " + std::to_string(m_thetaX) + ", " + std::to_string(m_thetaY)), 10, 10);
+		m_dc->DrawText(wxString("PanXY: " + std::to_string(0.0f) + ", " + std::to_string(0.0f)), 10, 25);
+		m_dc->DrawText(wxString("ZOffset: " + std::to_string(m_zOffset)), 10, 40);
 	}
 }
 
@@ -153,41 +153,41 @@ void CMain::updateRotation()
 	CMatrix4 rotMatX;
 	CMatrix4 rotMatY;
 
-	// Compute the X rotation matrix
+	// X rotation matrix
 
 	/*
-	1.0  0.0             0.0             0.0
+	1.0  0.0             0.0              0.0
 
-	0.0  cosf(m_thetaX)  sinf(m_thetaX)  0.0
+	0.0  cosf(m_thetaX)  -sinf(m_thetaX)  0.0
 
-	0.0  -sinf(m_thetaX) cosf(m_thetaX)  0.0
+	0.0  sinf(m_thetaX)  cosf(m_thetaX)   0.0
 
-	0.0  0.0             0.0             1.0
+	0.0  0.0             0.0              1.0
 	*/
 
 	rotMatX.setMatrixAt(0, 0, 1.0f);
 	rotMatX.setMatrixAt(1, 1, cosf(m_thetaX));
-	rotMatX.setMatrixAt(1, 2, sinf(m_thetaX));
-	rotMatX.setMatrixAt(2, 1, -sinf(m_thetaX));
+	rotMatX.setMatrixAt(1, 2, -sinf(m_thetaX));
+	rotMatX.setMatrixAt(2, 1, sinf(m_thetaX));
 	rotMatX.setMatrixAt(2, 2, cosf(m_thetaX));
 	rotMatX.setMatrixAt(3, 3, 1.0f);
 
-	// Compute the Z rotation matrix
+	// Y rotation matrix
 
 	/*
-	cosf(m_thetaZ)   0.0  sinf(m_thetaZ)  0.0
+	cosf(m_thetaY)   0.0  sinf(m_thetaY)  0.0
 				    
 	0.0              1.0  0.0             0.0
 				    
-	-sinf(m_thetaZ)  0.0  cosf(m_thetaZ)  0.0
+	-sinf(m_thetaY)  0.0  cosf(m_thetaY)  0.0
 				    
 	0.0              0.0  0.0             1.0
 	*/
 
 	rotMatY.setMatrixAt(0, 0, cosf(m_thetaY));
-	rotMatY.setMatrixAt(0, 2, sinf(m_thetaY));
+	rotMatY.setMatrixAt(0, 2, -sinf(m_thetaY));
 	rotMatY.setMatrixAt(1, 1, 1.0f);
-	rotMatY.setMatrixAt(2, 0, -sinf(m_thetaY));
+	rotMatY.setMatrixAt(2, 0, sinf(m_thetaY));
 	rotMatY.setMatrixAt(2, 2, cosf(m_thetaY));
 	rotMatY.setMatrixAt(3, 3, 1.0f);
 
