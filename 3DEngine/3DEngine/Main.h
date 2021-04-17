@@ -37,6 +37,10 @@ private:
 	float m_thetaY = 0.0f; // pitch
 	float m_thetaZ = 0.0f; // roll
 
+	// Pan translation
+	float m_transX = 0.0f; // up/down
+	float m_transY = 0.0f; // left/right
+
 public:
 	// Public constructor and destructor
 	CMain();

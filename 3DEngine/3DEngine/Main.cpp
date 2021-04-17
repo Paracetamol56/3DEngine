@@ -60,7 +60,7 @@ void CMain::update()
 	m_projMat.setMatrixAt(2, 3, -1.0f);
 
 	// Drawing triangles
-	CVector3D translationVec((float)GetSize().GetX() / 2, (float)GetSize().GetY() / 2, 0.0f);
+	CVector3D translationVec((float)GetSize().GetX() / 2 + m_transX, (float)GetSize().GetY() / 2 + m_transY, 0.0f);
 	for (CTriangle iTriangle : m_mesh.getTrianlges())
 	{
 		std::array<CVector3D, 3> projPoints = iTriangle.getPoints();
@@ -160,7 +160,7 @@ void CMain::update()
 	{
 		m_dc->SetTextForeground(wxColor(255, 255, 255));
 		m_dc->DrawText(wxString("RotXYZ: " + std::to_string(m_thetaX) + ", " + std::to_string(m_thetaY) + ", " + std::to_string(m_thetaZ)), 10, 10);
-		m_dc->DrawText(wxString("PanXY: " + std::to_string(0.0f) + ", " + std::to_string(0.0f)), 10, 25);
+		m_dc->DrawText(wxString("PanXY: " + std::to_string(m_transX) + ", " + std::to_string(m_transY)), 10, 25);
 		m_dc->DrawText(wxString("ZOffset: " + std::to_string(m_zOffset)), 10, 40);
 	}
 }
@@ -193,25 +193,29 @@ void CMain::onKeyDown(wxKeyEvent& event)
 	switch (event.GetKeyCode())
 	{
 	case wxKeyCode::WXK_LEFT:
-	{
 		m_thetaX += 0.1570796f;
 		break;
-	}
 	case wxKeyCode::WXK_RIGHT:
-	{
 		m_thetaX -= 0.1570796f;
 		break;
-	}
 	case wxKeyCode::WXK_UP:
-	{
 		m_thetaZ += 0.1570796f;
 		break;
-	}
 	case wxKeyCode::WXK_DOWN:
-	{
 		m_thetaZ -= 0.1570796f;
 		break;
-	}
+	case wxKeyCode::WXK_NUMPAD4:
+		m_transX -= 50.0f;
+		break;
+	case wxKeyCode::WXK_NUMPAD6:
+		m_transX += 50.0f;
+		break;
+	case wxKeyCode::WXK_NUMPAD8:
+		m_transY -= 50.0f;
+		break;
+	case wxKeyCode::WXK_NUMPAD2:
+		m_transY += 50.0f;
+		break;
 	default:
 		break;
 	}
