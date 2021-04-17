@@ -2,6 +2,7 @@
 
 BEGIN_EVENT_TABLE(CMain, wxPanel)
 	EVT_KEY_DOWN(CMain::onKeyDown)
+	EVT_MOUSEWHEEL(CMain::onMouseWheel)
 	EVT_SIZE(CMain::onResize)
 	EVT_CLOSE(CMain::onClose)
 END_EVENT_TABLE()
@@ -66,14 +67,12 @@ void CMain::update()
 
 		for (size_t i = 0; i < 3; i++)
 		{
-			// Offset
-			projPoints.at(i).setZ(projPoints.at(i).getZ() * 3.0);
 			// Multiplying each point by the projection matrix
 			projPoints.at(i) *= m_projMat;
 			// Multiplying each point by the rotation matrix
 			projPoints.at(i) *= m_rotMat;
 			// Scale up the mesh
-			projPoints.at(i) *= 300.0f;
+			projPoints.at(i) *= 100.0f;
 			// Add the translationVec to set the origin to the centre
 			projPoints.at(i) += translationVec;
 		}
@@ -176,6 +175,31 @@ void CMain::onKeyDown(wxKeyEvent& event)
 		break;
 	}
 	updateRotation();
+}
+
+// Mouse wheel event handling
+void CMain::onMouseWheel(wxMouseEvent& event)
+{
+	if (event.GetWheelRotation() > 0)
+	{
+		// Dezoom constraint when GetWheelRotation is positiv
+		float testVal = m_Fov + event.GetWheelRotation() / 100.0f;
+		if (testVal < 94.0f)
+		{
+			m_Fov = testVal;
+		}
+	}
+	else
+	{
+		// Dezoom constraint when GetWheelRotation is negativ
+		float testVal = m_Fov + event.GetWheelRotation() / 100.0f;
+		if (testVal > 85.0f)
+		{
+			m_Fov = testVal;
+		}
+	}
+
+	update();
 }
 
 // Resising event handling

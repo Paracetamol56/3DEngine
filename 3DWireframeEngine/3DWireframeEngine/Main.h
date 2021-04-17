@@ -49,6 +49,9 @@ public:
 	// Key down event
 	void onKeyDown(wxKeyEvent& event);
 
+	// Mouse wheel event
+	void onMouseWheel(wxMouseEvent& event);
+
 	// Resize event
 	void onResize(wxSizeEvent& event);
 
