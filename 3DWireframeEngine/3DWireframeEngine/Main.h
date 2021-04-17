@@ -27,6 +27,9 @@ private:
 	// Rotation matrix
 	CMatrix4 m_rotMat;
 
+	// Main device context
+	wxClientDC* m_dc;
+
 	// Rotation angle
 	float m_thetaX = 0.0f;
 	float m_thetaZ = 0.0f;
@@ -38,14 +41,19 @@ public:
 
 public:
 	// Update content
-	void update(wxPaintEvent& event);
+	void update();
 
 	// Update rotation matrix
 	void updateRotation();
 
-	// Key event handling
+	// Key down event
 	void OnKeyDown(wxKeyEvent& event);
+
+	// Resize event
 	void OnResize(wxSizeEvent& event);
+
+	// Close event
+	void OnClose(wxCloseEvent& event);
 
 	DECLARE_EVENT_TABLE()
 };

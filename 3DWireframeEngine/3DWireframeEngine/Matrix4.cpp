@@ -17,7 +17,7 @@ std::array<std::array<float, 4>, 4> CMatrix4::getMatrix()
 }
 
 // Matrix getter at a specific position
-float CMatrix4::getMatrixAt(int i, int j) const
+float CMatrix4::getMatrixAt(size_t i, size_t j) const
 {
 	if (i <= 4 && j <= 4)
 	{

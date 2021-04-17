@@ -1,9 +1,9 @@
 #include "Main.h"
 
 BEGIN_EVENT_TABLE(CMain, wxPanel)
-	EVT_PAINT(CMain::update)
 	EVT_KEY_DOWN(CMain::OnKeyDown)
 	EVT_SIZE(CMain::OnResize)
+	EVT_CLOSE(CMain::OnClose)
 END_EVENT_TABLE()
 
 // Constructor
@@ -32,6 +32,11 @@ CMain::CMain() : wxFrame(nullptr, wxID_ANY, "3D Engine", wxDefaultPosition, wxSi
 
 	// Set the window backgorud color to black
 	SetBackgroundColour(wxColor(20, 20, 20));
+
+	// Create the main device context
+	m_dc = new wxClientDC(this);
+
+	update();
 }
 
 // Destructor
@@ -40,13 +45,12 @@ CMain::~CMain()
 }
 
 // Update function
-void CMain::update(wxPaintEvent& event)
+void CMain::update()
 {
-	// Update the rotation matrix
-	updateRotation();
+	m_dc->Clear();
 
-	// Create the main device context
-	wxPaintDC dc(this);
+	// Update the rotation matrix
+	//updateRotation();
 
 	// Update the projection matrix
 	m_projMat.setMatrixAt(0, 0, m_FovRad);
@@ -75,10 +79,10 @@ void CMain::update(wxPaintEvent& event)
 		}
 
 		// Draw each edge of the triangle
-		dc.SetPen(wxPen(wxColor(255, 255, 255), 2));
-		dc.DrawLine(projPoints.at(0).getX(), projPoints.at(0).getY(), projPoints.at(1).getX(), projPoints.at(1).getY());
-		dc.DrawLine(projPoints.at(1).getX(), projPoints.at(1).getY(), projPoints.at(2).getX(), projPoints.at(2).getY());
-		dc.DrawLine(projPoints.at(2).getX(), projPoints.at(2).getY(), projPoints.at(0).getX(), projPoints.at(0).getY());
+		m_dc->SetPen(wxPen(wxColor(255, 255, 255), 2));
+		m_dc->DrawLine(projPoints.at(0).getX(), projPoints.at(0).getY(), projPoints.at(1).getX(), projPoints.at(1).getY());
+		m_dc->DrawLine(projPoints.at(1).getX(), projPoints.at(1).getY(), projPoints.at(2).getX(), projPoints.at(2).getY());
+		m_dc->DrawLine(projPoints.at(2).getX(), projPoints.at(2).getY(), projPoints.at(0).getX(), projPoints.at(0).getY());
 	}
 
 	// Draw gizmo and origin
@@ -95,17 +99,17 @@ void CMain::update(wxPaintEvent& event)
 		gizmoX = gizmoX * m_projMat + translationVec;
 		gizmoY = gizmoY * m_projMat + translationVec;
 		gizmoZ = gizmoZ * m_projMat + translationVec;
-		dc.SetPen(wxPen(wxColor(255, 20, 20), 2));
-		dc.DrawLine(origin.getX(), origin.getY(), gizmoX.getX(), gizmoX.getY());
-		dc.SetPen(wxPen(wxColor(20, 255, 20), 2));
-		dc.DrawLine(origin.getX(), origin.getY(), gizmoY.getX(), gizmoY.getY());
-		dc.SetPen(wxPen(wxColor(20, 20, 255), 2));
-		dc.DrawLine(origin.getX(), origin.getY(), gizmoZ.getX(), gizmoZ.getY());
+		m_dc->SetPen(wxPen(wxColor(255, 20, 20), 2));
+		m_dc->DrawLine(origin.getX(), origin.getY(), gizmoX.getX(), gizmoX.getY());
+		m_dc->SetPen(wxPen(wxColor(20, 255, 20), 2));
+		m_dc->DrawLine(origin.getX(), origin.getY(), gizmoY.getX(), gizmoY.getY());
+		m_dc->SetPen(wxPen(wxColor(20, 20, 255), 2));
+		m_dc->DrawLine(origin.getX(), origin.getY(), gizmoZ.getX(), gizmoZ.getY());
 
 		// Draw the origin point in blue
-		dc.SetPen(wxPen(wxColor(100, 100, 255), 2));
-		dc.DrawLine(origin.getX() + 3.0f, origin.getY(), origin.getX() - 3.0f, origin.getY());
-		dc.DrawLine(origin.getX(), origin.getY() + 3.0f, origin.getX(), origin.getY() - 3.0f);
+		m_dc->SetPen(wxPen(wxColor(100, 100, 255), 2));
+		m_dc->DrawLine(origin.getX() + 3.0f, origin.getY(), origin.getX() - 3.0f, origin.getY());
+		m_dc->DrawLine(origin.getX(), origin.getY() + 3.0f, origin.getX(), origin.getY() - 3.0f);
 	}
 }
 
@@ -134,6 +138,8 @@ void CMain::updateRotation()
 
 	// Multiply the two matrix together
 	m_rotMat = rotMatX; //* rotMatZ;
+
+	update();
 }
 
 // Key event handling
@@ -157,10 +163,24 @@ void CMain::OnKeyDown(wxKeyEvent& event)
 	default:
 		break;
 	}
+	updateRotation();
 }
 
 void CMain::OnResize(wxSizeEvent& event)
 {
-	this->InvalidateBestSize();
+	updateRotation();
 	event.Skip();
+}
+
+void CMain::OnClose(wxCloseEvent& event)
+{
+	if (wxMessageBox("You are about to close... continue closing?",
+		"Please confirm",
+		wxICON_QUESTION | wxYES_NO) != wxYES)
+	{
+		event.Veto();
+		return;
+	}
+
+	Destroy();
 }
