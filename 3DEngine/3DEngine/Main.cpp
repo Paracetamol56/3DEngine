@@ -61,11 +61,13 @@ void CMain::update()
 
 	// Drawing triangles
 	CVector3D translationVec((float)GetSize().GetX() / 2 + m_transX, (float)GetSize().GetY() / 2 + m_transY, 0.0f);
+
 	for (CTriangle iTriangle : m_mesh.getTrianlges())
 	{
 		std::array<CVector3D, 3> projPoints = iTriangle.getPoints();
 		CVector3D iMassCenter = iTriangle.getMassCenter();
 		CVector3D iNormal = iTriangle.getNormal();
+		iNormal += iMassCenter;
 
 		for (size_t i = 0; i < 3; i++)
 		{
@@ -103,8 +105,7 @@ void CMain::update()
 		m_dc->DrawLine(projPoints.at(1).getX(), projPoints.at(1).getY(), projPoints.at(2).getX(), projPoints.at(2).getY());
 		m_dc->DrawLine(projPoints.at(2).getX(), projPoints.at(2).getY(), projPoints.at(0).getX(), projPoints.at(0).getY());
 
-
-
+		// Draw the normals
 		m_dc->SetPen(wxPen(wxColor(255, 100, 0), 1));
 		m_dc->DrawLine(iMassCenter.getX(), iMassCenter.getY(), iNormal.getX(), iNormal.getY());
 	}
