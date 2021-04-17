@@ -175,22 +175,22 @@ void CMain::onKeyDown(wxKeyEvent& event)
 	{
 	case wxKeyCode::WXK_LEFT:
 	{
-		m_thetaZ += 0.1f;
+		m_thetaX += 0.1f;
 		break;
 	}
 	case wxKeyCode::WXK_RIGHT:
 	{
-		m_thetaZ -= 0.1f;
+		m_thetaX -= 0.1f;
 		break;
 	}
 	case wxKeyCode::WXK_UP:
 	{
-		m_thetaX += 0.1f;
+		m_thetaZ += 0.1f;
 		break;
 	}
 	case wxKeyCode::WXK_DOWN:
 	{
-		m_thetaX -= 0.1f;
+		m_thetaZ -= 0.1f;
 		break;
 	}
 	default:
