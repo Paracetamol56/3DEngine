@@ -21,7 +21,7 @@ CMain::CMain() : wxFrame(nullptr, wxID_ANY, "3D Engine", wxDefaultPosition, wxSi
 	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, -1.0f, -1.0f), CVector3D(1.0f, 1.0f, -1.0f), CVector3D(1.0f, 1.0f, 1.0f)));
 	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, -1.0f, -1.0f), CVector3D(1.0f, 1.0f, 1.0f), CVector3D(1.0f, -1.0f, 1.0f)));
 	// Back face
-	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, -1.0f, -1.0f), CVector3D(1.0f, 1.0f, 1.0f), CVector3D(-1.0f, 1.0f, 1.0f)));
+	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, -1.0f, 1.0f), CVector3D(1.0f, 1.0f, 1.0f), CVector3D(-1.0f, 1.0f, 1.0f)));
 	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, -1.0f, 1.0f), CVector3D(-1.0f, 1.0f, 1.0f), CVector3D(-1.0f, -1.0f, 1.0f)));
 	// Left face
 	m_mesh.addTriangle(CTriangle(CVector3D(-1.0f, -1.0f, 1.0f), CVector3D(-1.0f, 1.0f, -1.0f), CVector3D(-1.0f, 1.0f, -1.0f)));
@@ -71,13 +71,13 @@ void CMain::update()
 			projPoints.at(i) *= m_rotMat;
 
 			// Offset 
-			projPoints.at(i).setZ(projPoints.at(i).getZ() + 10.0);
+			projPoints.at(i).setZ(projPoints.at(i).getZ() + m_zOffset);
 
 			// Multiplying each point by the projection matrix
 			projPoints.at(i) *= m_projMat;
 			
 			// Scale up the mesh
-			projPoints.at(i) *= 100.0f;
+			projPoints.at(i) *= 1000.0f;
 
 			// Add the translationVec to set the origin to the centre
 			projPoints.at(i) += translationVec;
@@ -98,14 +98,30 @@ void CMain::update()
 		origin += translationVec;
 
 		// Create 3 vectors for the gizmo
-		CVector3D gizmoX(10.0f, 0.0f, 0.0f);
-		CVector3D gizmoY(0.0f, 10.0f, 0.0f);
-		CVector3D gizmoZ(0.0f, 0.0f, 10.0f);
+		CVector3D gizmoX(1.0f, 0.0f, 0.0f);
+		CVector3D gizmoY(0.0f, 1.0f, 0.0f);
+		CVector3D gizmoZ(0.0f, 0.0f, 1.0f);
 
 		// Apply modifications to each vector
-		gizmoX = gizmoX * m_projMat * m_rotMat + translationVec;
-		gizmoY = gizmoY * m_projMat * m_rotMat + translationVec;
-		gizmoZ = gizmoZ * m_projMat * m_rotMat + translationVec;
+		gizmoX *= m_rotMat;
+		gizmoY *= m_rotMat;
+		gizmoZ *= m_rotMat;
+
+		gizmoX.setZ(gizmoX.getZ() + m_zOffset);
+		gizmoY.setZ(gizmoY.getZ() + m_zOffset);
+		gizmoZ.setZ(gizmoZ.getZ() + m_zOffset);
+
+		gizmoX *= m_projMat;
+		gizmoY *= m_projMat;
+		gizmoZ *= m_projMat;
+
+		gizmoX *= 1000.0f;
+		gizmoY *= 1000.0f;
+		gizmoZ *= 1000.0f;
+
+		gizmoX += translationVec;
+		gizmoY += translationVec;
+		gizmoZ += translationVec;
 
 		// Draw the gizmo
 		m_dc->SetPen(wxPen(wxColor(255, 20, 20), 1));
@@ -124,8 +140,10 @@ void CMain::update()
 
 void CMain::updateRotation()
 {
+	// More infos : https://en.wikipedia.org/wiki/Rotation_matrix
+
 	CMatrix4 rotMatX;
-	CMatrix4 rotMatZ;
+	CMatrix4 rotMatY;
 
 	// Compute the X rotation matrix
 
@@ -149,26 +167,26 @@ void CMain::updateRotation()
 	// Compute the Z rotation matrix
 
 	/*
-	cosf(m_thetaZ)   sinf(m_thetaZ)  0.0  0.0
-
-	-sinf(m_thetaZ)  cosf(m_thetaZ)  0.0  0.0
-
-	0.0              0.0             1.0  0.0
-
-	0.0              0.0             0.0  1.0
+	cosf(m_thetaZ)   0.0  sinf(m_thetaZ)  0.0
+				    
+	0.0              1.0  0.0             0.0
+				    
+	-sinf(m_thetaZ)  0.0  cosf(m_thetaZ)  0.0
+				    
+	0.0              0.0  0.0             1.0
 	*/
 
-	rotMatZ.setMatrixAt(0, 0, cosf(m_thetaZ));
-	rotMatZ.setMatrixAt(0, 1, sinf(m_thetaZ));
-	rotMatZ.setMatrixAt(1, 0, -sinf(m_thetaZ));
-	rotMatZ.setMatrixAt(1, 1, cosf(m_thetaZ));
-	rotMatZ.setMatrixAt(2, 2, 1.0f);
-	rotMatZ.setMatrixAt(3, 3, 1.0f);
+	rotMatY.setMatrixAt(0, 0, cosf(m_thetaY));
+	rotMatY.setMatrixAt(0, 2, sinf(m_thetaY));
+	rotMatY.setMatrixAt(1, 1, 1.0f);
+	rotMatY.setMatrixAt(2, 0, -sinf(m_thetaY));
+	rotMatY.setMatrixAt(2, 2, cosf(m_thetaY));
+	rotMatY.setMatrixAt(3, 3, 1.0f);
 
 	m_rotMat.setZeros();
 
 	// Multiply the two matrix together
-	m_rotMat = rotMatX * rotMatZ;
+	m_rotMat = rotMatX * rotMatY;
 
 	// Render with the new matrix
 	update();
@@ -181,12 +199,12 @@ void CMain::onKeyDown(wxKeyEvent& event)
 	{
 	case wxKeyCode::WXK_LEFT:
 	{
-		m_thetaZ += 0.1f;
+		m_thetaY += 0.1f;
 		break;
 	}
 	case wxKeyCode::WXK_RIGHT:
 	{
-		m_thetaZ -= 0.1f;
+		m_thetaY -= 0.1f;
 		break;
 	}
 	case wxKeyCode::WXK_UP:
@@ -211,19 +229,19 @@ void CMain::onMouseWheel(wxMouseEvent& event)
 	if (event.GetWheelRotation() > 0)
 	{
 		// Dezoom constraint when GetWheelRotation is positiv
-		float testVal = m_Fov + event.GetWheelRotation() / 100.0f;
-		if (testVal < 94.0f)
+		float testVal = m_zOffset + event.GetWheelRotation() / 100.0f;
+		if (testVal < 1000.0f)
 		{
-			m_Fov = testVal;
+			m_zOffset = testVal;
 		}
 	}
 	else
 	{
 		// Dezoom constraint when GetWheelRotation is negativ
-		float testVal = m_Fov + event.GetWheelRotation() / 100.0f;
-		if (testVal > 85.0f)
+		float testVal = m_zOffset + event.GetWheelRotation() / 100.0f;
+		if (testVal > 1.0f)
 		{
-			m_Fov = testVal;
+			m_zOffset = testVal;
 		}
 	}
 

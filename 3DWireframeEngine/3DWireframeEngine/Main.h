@@ -21,6 +21,8 @@ private:
 	float m_AspectRatio = (float)GetSize().GetX() / (float)GetSize().GetY();
 	float m_FovRad = 1.0f / tanf(m_Fov * 0.5f / 180.0f * 3.14159f);
 
+	float m_zOffset = 10.0f;
+
 	// Projection matrix
 	CMatrix4 m_projMat;
 
@@ -32,7 +34,7 @@ private:
 
 	// Rotation angle
 	float m_thetaX = 0.0f;
-	float m_thetaZ = 0.0f;
+	float m_thetaY = 0.0f;
 
 public:
 	// Public constructor and destructor
