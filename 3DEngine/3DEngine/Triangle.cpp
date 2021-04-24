@@ -37,9 +37,9 @@ CVector3D CTriangle::getMassCenter() const
     // Center point
     CVector3D massCenter
     (
-        (m_Points[0].getX() + m_Points[1].getX() + m_Points[2].getX()) / 3,
-        (m_Points[0].getY() + m_Points[1].getY() + m_Points[2].getY()) / 3,
-        (m_Points[0].getZ() + m_Points[1].getZ() + m_Points[2].getZ()) / 3
+        (m_Points[0].m_x + m_Points[1].m_x + m_Points[2].m_x) / 3,
+        (m_Points[0].m_y + m_Points[1].m_y + m_Points[2].m_y) / 3,
+        (m_Points[0].m_z + m_Points[1].m_z + m_Points[2].m_z) / 3
     );
 
     return massCenter;
@@ -51,17 +51,17 @@ CVector3D CTriangle::getNormal() const
     // Normal vector
     CVector3D normal
     (
-        (m_Points[1].getY() - m_Points[0].getY()) * (m_Points[2].getZ() - m_Points[0].getZ()) - (m_Points[1].getZ() - m_Points[0].getZ()) * (m_Points[2].getY() - m_Points[0].getY()),
-        (m_Points[1].getZ() - m_Points[0].getZ()) * (m_Points[2].getX() - m_Points[0].getX()) - (m_Points[1].getX() - m_Points[0].getX()) * (m_Points[2].getZ() - m_Points[0].getZ()),
-        (m_Points[1].getX() - m_Points[0].getX()) * (m_Points[2].getY() - m_Points[0].getY()) - (m_Points[1].getY() - m_Points[0].getY()) * (m_Points[2].getX() - m_Points[0].getX())
+        (m_Points[1].m_y - m_Points[0].m_y) * (m_Points[2].m_z - m_Points[0].m_z) - (m_Points[1].m_z - m_Points[0].m_z) * (m_Points[2].m_y - m_Points[0].m_y),
+        (m_Points[1].m_z - m_Points[0].m_z) * (m_Points[2].m_x - m_Points[0].m_x) - (m_Points[1].m_x - m_Points[0].m_x) * (m_Points[2].m_z - m_Points[0].m_z),
+        (m_Points[1].m_x - m_Points[0].m_x) * (m_Points[2].m_y - m_Points[0].m_y) - (m_Points[1].m_y - m_Points[0].m_y) * (m_Points[2].m_x - m_Points[0].m_x)
     );
 
     // Normalization
-    float length = sqrtf(normal.getX() * normal.getX() + normal.getY() * normal.getY() + normal.getZ() * normal.getZ());
+    float length = sqrtf(normal.m_x * normal.m_x + normal.m_y * normal.m_y + normal.m_z * normal.m_z);
 
-    normal.setX(normal.getX() / length);
-    normal.setY(normal.getY() / length);
-    normal.setZ(normal.getZ() / length);
+    normal.m_x /= length;
+    normal.m_y /= length;
+    normal.m_z /= length;
 
     return normal;
 }

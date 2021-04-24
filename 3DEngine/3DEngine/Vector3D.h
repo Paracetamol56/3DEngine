@@ -4,7 +4,7 @@
 
 class CVector3D
 {
-private:
+public:
 	// 3D coordinates
 	float m_x = 0.0f;
 	float m_y = 0.0f;
@@ -15,18 +15,6 @@ public:
 	CVector3D();
 	CVector3D(float x, float y, float z);
 	~CVector3D();
-
-public:
-	// Getters
-	float getX() const;
-	float getY() const;
-	float getZ() const;
-
-public:
-	// Setters
-	void setX( float x );
-	void setY( float y );
-	void setZ( float z );
 
 public:
 	// Operators

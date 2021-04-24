@@ -10,6 +10,7 @@ END_EVENT_TABLE()
 // Constructor
 CMain::CMain() : wxFrame(nullptr, wxID_ANY, "3D Engine", wxDefaultPosition, wxSize(1280, 720))
 {
+	/*
 	// ========= Example default cube mesh ========= //
 	// Bottom face
 	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, 0.0f, 1.0f), CVector3D(0.0f, 0.0f, 1.0f), CVector3D(0.0f, 0.0f, 0.0f)));
@@ -30,6 +31,9 @@ CMain::CMain() : wxFrame(nullptr, wxID_ANY, "3D Engine", wxDefaultPosition, wxSi
 	m_mesh.addTriangle(CTriangle(CVector3D(0.0f, 1.0f, 0.0f), CVector3D(0.0f, 1.0f, 1.0f), CVector3D(1.0f, 1.0f, 1.0f)));
 	m_mesh.addTriangle(CTriangle(CVector3D(0.0f, 1.0f, 0.0f), CVector3D(1.0f, 1.0f, 1.0f), CVector3D(1.0f, 1.0f, 0.0f)));
 	// ======== END Example default cube mesh =======//
+	*/
+
+	m_mesh.LoadFromObjectFile("teapot.obj");
 
 	// Set the window backgorud color to black
 	SetBackgroundColour(wxColor(20, 20, 20));
@@ -75,7 +79,7 @@ void CMain::update()
 			projPoints.at(i) *= m_rotMat;
 
 			// Offset 
-			projPoints.at(i).setZ(projPoints.at(i).getZ() + m_zOffset);
+			projPoints.at(i).m_z += m_zOffset;
 
 			// Multiplying each point by the projection matrix
 			projPoints.at(i) *= m_projMat;
@@ -88,26 +92,26 @@ void CMain::update()
 		}
 
 		iMassCenter *= m_rotMat;
-		iMassCenter.setZ(iMassCenter.getZ() + m_zOffset);
+		iMassCenter.m_z += m_zOffset;
 		iMassCenter *= m_projMat;
 		iMassCenter *= 1000.0f;
 		iMassCenter += translationVec;
 
 		iNormal *= m_rotMat;
-		iNormal.setZ(iNormal.getZ() + m_zOffset);
+		iNormal.m_z += m_zOffset;
 		iNormal *= m_projMat;
 		iNormal *= 1000.0f;
 		iNormal += translationVec;
 
 		// Draw each edge of the triangle
 		m_dc->SetPen(wxPen(wxColor(255, 255, 255), 2));
-		m_dc->DrawLine(projPoints.at(0).getX(), projPoints.at(0).getY(), projPoints.at(1).getX(), projPoints.at(1).getY());
-		m_dc->DrawLine(projPoints.at(1).getX(), projPoints.at(1).getY(), projPoints.at(2).getX(), projPoints.at(2).getY());
-		m_dc->DrawLine(projPoints.at(2).getX(), projPoints.at(2).getY(), projPoints.at(0).getX(), projPoints.at(0).getY());
+		m_dc->DrawLine(projPoints.at(0).m_x, projPoints.at(0).m_y, projPoints.at(1).m_x, projPoints.at(1).m_y);
+		m_dc->DrawLine(projPoints.at(1).m_x, projPoints.at(1).m_y, projPoints.at(2).m_x, projPoints.at(2).m_y);
+		m_dc->DrawLine(projPoints.at(2).m_x, projPoints.at(2).m_y, projPoints.at(0).m_x, projPoints.at(0).m_y);
 
 		// Draw the normals
 		m_dc->SetPen(wxPen(wxColor(255, 100, 0), 1));
-		m_dc->DrawLine(iMassCenter.getX(), iMassCenter.getY(), iNormal.getX(), iNormal.getY());
+		m_dc->DrawLine(iMassCenter.m_x, iMassCenter.m_y, iNormal.m_x, iNormal.m_y);
 	}
 
 	// Draw gizmo and origin
@@ -127,9 +131,9 @@ void CMain::update()
 		gizmoY *= m_rotMat;
 		gizmoZ *= m_rotMat;
 
-		gizmoX.setZ(gizmoX.getZ() + m_zOffset);
-		gizmoY.setZ(gizmoY.getZ() + m_zOffset);
-		gizmoZ.setZ(gizmoZ.getZ() + m_zOffset);
+		gizmoX.m_z += m_zOffset;
+		gizmoY.m_z += m_zOffset;
+		gizmoZ.m_z += m_zOffset;
 
 		gizmoX *= m_projMat;
 		gizmoY *= m_projMat;
@@ -145,16 +149,16 @@ void CMain::update()
 
 		// Draw the gizmo
 		m_dc->SetPen(wxPen(wxColor(255, 20, 20), 1));
-		m_dc->DrawLine(origin.getX(), origin.getY(), gizmoX.getX(), gizmoX.getY());
+		m_dc->DrawLine(origin.m_x, origin.m_y, gizmoX.m_x, gizmoX.m_y);
 		m_dc->SetPen(wxPen(wxColor(20, 255, 20), 1));
-		m_dc->DrawLine(origin.getX(), origin.getY(), gizmoY.getX(), gizmoY.getY());
+		m_dc->DrawLine(origin.m_x, origin.m_y, gizmoY.m_x, gizmoY.m_y);
 		m_dc->SetPen(wxPen(wxColor(20, 20, 255), 1));
-		m_dc->DrawLine(origin.getX(), origin.getY(), gizmoZ.getX(), gizmoZ.getY());
+		m_dc->DrawLine(origin.m_x, origin.m_y, gizmoZ.m_x, gizmoZ.m_y);
 
 		// Draw the origin point in blue
 		m_dc->SetPen(wxPen(wxColor(100, 100, 255), 2));
-		m_dc->DrawLine(origin.getX() + 3.0f, origin.getY(), origin.getX() - 3.0f, origin.getY());
-		m_dc->DrawLine(origin.getX(), origin.getY() + 3.0f, origin.getX(), origin.getY() - 3.0f);
+		m_dc->DrawLine(origin.m_x + 3.0f, origin.m_y, origin.m_x - 3.0f, origin.m_y);
+		m_dc->DrawLine(origin.m_x, origin.m_y + 3.0f, origin.m_x, origin.m_y - 3.0f);
 	}
 
 	// Print upper left corner informativ text
