@@ -1,15 +1,52 @@
 #include "Main.h"
 
 BEGIN_EVENT_TABLE(CMain, wxPanel)
+
+	EVT_MENU(myID_IMPORT, CMain::OnImport)
+	EVT_MENU(wxID_EXIT, CMain::OnQuit)
+	EVT_MENU(myID_SHOWINFO, CMain::OnShowPositionInfo)
+	EVT_MENU(myID_SHOWNORMALS, CMain::OnShowNormals)
+	EVT_MENU(wxID_ABOUT, CMain::OnAbout)
+
 	EVT_KEY_DOWN(CMain::onKeyDown)
 	EVT_MOUSEWHEEL(CMain::onMouseWheel)
 	EVT_SIZE(CMain::onResize)
 	EVT_CLOSE(CMain::onClose)
+
 END_EVENT_TABLE()
 
 // Constructor
 CMain::CMain() : wxFrame(nullptr, wxID_ANY, "3D Engine", wxDefaultPosition, wxSize(1280, 720))
 {
+	// ========= MENU BAR CREATION ========= //
+
+	// Menus creation
+	m_fileMenu = new wxMenu();
+	m_settingMenu = new wxMenu();
+	m_helpMenu = new wxMenu();
+
+	// File menu
+	m_fileMenu->Append(myID_IMPORT, _T("Import OBJ file\tCtrl+O"));
+	m_fileMenu->AppendSeparator();
+	m_fileMenu->Append(wxID_EXIT, _T("&Quit"));
+
+	// Setting menu
+	m_settingMenu->Append(myID_SHOWINFO, _T("Show position info"));
+	m_settingMenu->Append(myID_SHOWNORMALS, _T("Show normals"));
+
+	// Help menu
+	m_helpMenu->Append(wxID_ABOUT, _T("&About\tF1"));
+
+	// Main menu bar
+	m_mainMenuBar = new wxMenuBar();
+
+	m_mainMenuBar->Append(m_fileMenu, _T("&File"));
+	m_mainMenuBar->Append(m_settingMenu, _T("&Settings"));
+	m_mainMenuBar->Append(m_helpMenu, _T("&Help"));
+
+	SetMenuBar(m_mainMenuBar);
+
+
 	/*
 	// ========= Example default cube mesh ========= //
 	// Bottom face
@@ -33,7 +70,7 @@ CMain::CMain() : wxFrame(nullptr, wxID_ANY, "3D Engine", wxDefaultPosition, wxSi
 	// ======== END Example default cube mesh =======//
 	*/
 
-	m_mesh.LoadFromObjectFile("D:/PROJETS INFO/PROGRAMMATION/C++/3DWireframeEngine/3DEngine/3DEngine/test.obj");
+	//m_mesh.LoadFromObjectFile("D:/PROJETS INFO/PROGRAMMATION/C++/3DWireframeEngine/3DEngine/3DEngine/test.obj");
 
 	// Set the window backgorud color to black
 	SetBackgroundColour(wxColor(20, 20, 20));
@@ -110,8 +147,11 @@ void CMain::update()
 		m_dc->DrawLine(projPoints.at(2).m_x, projPoints.at(2).m_y, projPoints.at(0).m_x, projPoints.at(0).m_y);
 
 		// Draw the normals
-		m_dc->SetPen(wxPen(wxColor(255, 100, 0), 1));
-		m_dc->DrawLine(iMassCenter.m_x, iMassCenter.m_y, iNormal.m_x, iNormal.m_y);
+		if (m_showNormals)
+		{
+			m_dc->SetPen(wxPen(wxColor(255, 100, 0), 1));
+			m_dc->DrawLine(iMassCenter.m_x, iMassCenter.m_y, iNormal.m_x, iNormal.m_y);
+		}
 	}
 
 	// Draw gizmo and origin
@@ -162,6 +202,7 @@ void CMain::update()
 	}
 
 	// Print upper left corner informativ text
+	if (m_showInfo)
 	{
 		m_dc->SetTextForeground(wxColor(255, 255, 255));
 		m_dc->DrawText(wxString("RotXYZ: " + std::to_string(m_thetaX) + ", " + std::to_string(m_thetaY) + ", " + std::to_string(m_thetaZ)), 10, 10);
@@ -271,4 +312,46 @@ void CMain::onClose(wxCloseEvent& event)
 	}
 
 	Destroy();
+}
+
+void CMain::OnQuit(wxCommandEvent& event)
+{
+	Destroy();
+}
+
+void CMain::OnImport(wxCommandEvent& event)
+{
+	wxFileDialog openFileDialog(nullptr, _("Open a file"), "", "",
+		"", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+	if (openFileDialog.ShowModal() == wxID_CANCEL)
+		return;
+
+	wxFileInputStream input_stream(openFileDialog.GetPath());
+	if (input_stream.IsOk() == false)
+	{
+		wxLogError("Cannot open file '%s'.", openFileDialog.GetPath());
+		wxMessageDialog WarnEmptyDialog(nullptr, "Cannot open file '%s'.", "WARNING", wxICON_EXCLAMATION | wxOK_DEFAULT | wxCENTER, wxDefaultPosition);
+		return;
+	}
+	else
+	{
+		m_mesh.LoadFromObjectFile(std::string(openFileDialog.GetPath()));
+	}
+}
+
+void CMain::OnShowPositionInfo(wxCommandEvent& event)
+{
+	m_showInfo = !m_showInfo;
+	Update();
+}
+
+void CMain::OnShowNormals(wxCommandEvent& event)
+{
+	m_showNormals = !m_showNormals;
+	Update();
+}
+
+void CMain::OnAbout(wxCommandEvent& event)
+{
+	wxLaunchDefaultBrowser("https://github.com/Paracetamol56/3DWireframeEngine");
 }

@@ -1,15 +1,34 @@
 #pragma once
 
 #include <wx/wx.h>
+#include <wx/menu.h>
+#include <wx/wfstream.h>
+#include <wx/filedlg.h>
 #include <array>
+#include <string>
 #include "Triangle.h"
 #include "Vector3D.h"
 #include "Matrix4.h"
 #include "Mesh.h"
 
+// Define custom events
+wxDEFINE_EVENT(myID_IMPORT, wxCommandEvent);
+wxDEFINE_EVENT(myID_SHOWINFO, wxCommandEvent);
+wxDEFINE_EVENT(myID_SHOWNORMALS, wxCommandEvent);
+
 class CMain : public wxFrame
 {
 private:
+	// Menu
+	wxMenuBar* m_mainMenuBar;
+	wxMenu* m_fileMenu;
+	wxMenu* m_settingMenu;
+	wxMenu* m_helpMenu;
+
+	// GUI variables
+	bool m_showInfo = true;
+	bool m_showNormals = false;
+
 	// Mesh
 	CMesh m_mesh;
 
@@ -64,6 +83,14 @@ public:
 
 	// Close event
 	void onClose(wxCloseEvent& event);
+
+private:
+	// Menu events
+	void OnQuit(wxCommandEvent& event);
+	void OnImport(wxCommandEvent& event);
+	void OnShowPositionInfo(wxCommandEvent& event);
+	void OnShowNormals(wxCommandEvent& event);
+	void OnAbout(wxCommandEvent& event);
 
 	DECLARE_EVENT_TABLE()
 };
