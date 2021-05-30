@@ -1,6 +1,6 @@
 #include "Main.h"
 
-BEGIN_EVENT_TABLE(CMain, wxPanel)
+BEGIN_EVENT_TABLE(CMain, wxFrame)
 
 	EVT_MENU(myID_IMPORT, CMain::OnImport)
 	EVT_MENU(wxID_EXIT, CMain::OnQuit)
@@ -18,34 +18,42 @@ END_EVENT_TABLE()
 // Constructor
 CMain::CMain() : wxFrame(nullptr, wxID_ANY, "3D Engine", wxDefaultPosition, wxSize(1280, 720))
 {
+	// Set the window backgorud color to black
+	SetBackgroundColour(wxColor(20, 20, 20));
+
+	// Create the main device context
+	m_dc = new wxClientDC(this);
+
 	// ========= MENU BAR CREATION ========= //
-
-	// Menus creation
-	m_fileMenu = new wxMenu();
-	m_settingMenu = new wxMenu();
-	m_helpMenu = new wxMenu();
-
-	// File menu
-	m_fileMenu->Append(myID_IMPORT, _T("Import OBJ file\tCtrl+O"));
-	m_fileMenu->AppendSeparator();
-	m_fileMenu->Append(wxID_EXIT, _T("&Quit"));
-
-	// Setting menu
-	m_settingMenu->Append(myID_SHOWINFO, _T("Show position info"));
-	m_settingMenu->Append(myID_SHOWNORMALS, _T("Show normals"));
-
-	// Help menu
-	m_helpMenu->Append(wxID_ABOUT, _T("&About\tF1"));
 
 	// Main menu bar
 	m_mainMenuBar = new wxMenuBar();
 
+	// File menu
+	m_fileMenu = new wxMenu();
+
+	m_fileMenu->Append(myID_IMPORT, _T("Import OBJ file\tCtrl+O"));
+	m_fileMenu->AppendSeparator();
+	m_fileMenu->Append(wxID_EXIT, _T("&Quit"));
+
 	m_mainMenuBar->Append(m_fileMenu, _T("&File"));
+
+	// Setting menu
+	m_settingMenu = new wxMenu();
+
+	m_settingMenu->Append(myID_SHOWINFO, _T("Show position info"));
+	m_settingMenu->Append(myID_SHOWNORMALS, _T("Show normals"));
+
 	m_mainMenuBar->Append(m_settingMenu, _T("&Settings"));
+
+	// Help menu
+	m_helpMenu = new wxMenu();
+
+	m_helpMenu->Append(wxID_ABOUT, _T("&About\tF1"));
+
 	m_mainMenuBar->Append(m_helpMenu, _T("&Help"));
-
+	
 	SetMenuBar(m_mainMenuBar);
-
 
 	/*
 	// ========= Example default cube mesh ========= //
@@ -70,15 +78,9 @@ CMain::CMain() : wxFrame(nullptr, wxID_ANY, "3D Engine", wxDefaultPosition, wxSi
 	// ======== END Example default cube mesh =======//
 	*/
 
-	//m_mesh.LoadFromObjectFile("D:/PROJETS INFO/PROGRAMMATION/C++/3DWireframeEngine/3DEngine/3DEngine/test.obj");
+	Update();
 
-	// Set the window backgorud color to black
-	SetBackgroundColour(wxColor(20, 20, 20));
-
-	// Create the main device context
-	m_dc = new wxClientDC(this);
-
-	updateRotation();
+	Show();
 }
 
 // Destructor
@@ -337,6 +339,8 @@ void CMain::OnImport(wxCommandEvent& event)
 	{
 		m_mesh.LoadFromObjectFile(std::string(openFileDialog.GetPath()));
 	}
+
+	Update();
 }
 
 void CMain::OnShowPositionInfo(wxCommandEvent& event)
