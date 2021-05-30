@@ -340,7 +340,7 @@ void CMain::OnImport(wxCommandEvent& event)
 		m_mesh.LoadFromObjectFile(std::string(openFileDialog.GetPath()));
 	}
 
-	Update();
+	updateRotation();
 }
 
 void CMain::OnShowPositionInfo(wxCommandEvent& event)
