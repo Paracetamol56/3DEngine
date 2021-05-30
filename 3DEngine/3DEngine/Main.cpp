@@ -346,13 +346,13 @@ void CMain::OnImport(wxCommandEvent& event)
 void CMain::OnShowPositionInfo(wxCommandEvent& event)
 {
 	m_showInfo = !m_showInfo;
-	Update();
+	updateRotation();
 }
 
 void CMain::OnShowNormals(wxCommandEvent& event)
 {
 	m_showNormals = !m_showNormals;
-	Update();
+	updateRotation();
 }
 
 void CMain::OnAbout(wxCommandEvent& event)
