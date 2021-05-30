@@ -1,3 +1,12 @@
+/*
+ * Created on Tue May 30 2021
+ *
+ * Copyright (c) 2021 - Mathéo Galuba - All Right Reserved
+ *
+ * Licensed under the Apache License, Version 2.0
+ * Available on GitHub at https://github.com/Paracetamol56/3DWireframeEngine
+ */
+
 #include "Triangle.h"
 
 // Constructors

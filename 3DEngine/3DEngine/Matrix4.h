@@ -1,4 +1,16 @@
+/*
+ * Created on Tue May 30 2021
+ *
+ * Copyright (c) 2021 - Mathéo Galuba - All Right Reserved
+ *
+ * Licensed under the Apache License, Version 2.0
+ * Available on GitHub at https://github.com/Paracetamol56/3DWireframeEngine
+ */
+
 #pragma once
+
+#ifndef MATRIX4_H_INCLUDED
+#define MATRIX4_H_INCLUDED
 
 #include <array>
 
@@ -32,3 +44,4 @@ public:
 	CMatrix4& setIdentity();
 };
 
+#endif // MATRIX4_H_INCLUDED

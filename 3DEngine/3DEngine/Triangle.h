@@ -1,4 +1,16 @@
+/*
+ * Created on Tue May 30 2021
+ *
+ * Copyright (c) 2021 - Mathéo Galuba - All Right Reserved
+ *
+ * Licensed under the Apache License, Version 2.0
+ * Available on GitHub at https://github.com/Paracetamol56/3DWireframeEngine
+ */
+
 #pragma once
+
+#ifndef TRIANGLE_H_INCLUDED
+#define TRIANGLE_H_INCLUDED
 
 #include "Vector3D.h"
 #include <array>
@@ -23,3 +35,5 @@ public:
 	// Setters
 	void setPoints(std::array<CVector3D, 3> points);
 };
+
+#endif // TRIANGLE_H_INCLUDE

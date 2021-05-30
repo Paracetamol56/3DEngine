@@ -1,3 +1,12 @@
+/*
+ * Created on Tue May 30 2021
+ *
+ * Copyright (c) 2021 - Mathéo Galuba - All Right Reserved
+ *
+ * Licensed under the Apache License, Version 2.0
+ * Available on GitHub at https://github.com/Paracetamol56/3DWireframeEngine
+ */
+
 #include "Main.h"
 
 BEGIN_EVENT_TABLE(CMain, wxFrame)
@@ -367,7 +376,7 @@ void CMain::OnHelp(wxCommandEvent& event)
 		"Created by Mathéo Galuba\n"
 		"Copyright(c) 2021\n"
 		"Licensed under the Apache License, Version 2.0"
-		"Available on GitHub at https://github.com/Paracetamol56/Cpp-Network-App";
+		"Available on GitHub at https://github.com/Paracetamol56/3DWireframeEngine";
 
 	wxMessageDialog HelpDialog(nullptr, helpMessage, "Help", wxICON_INFORMATION | wxOK_DEFAULT | wxCENTER, wxDefaultPosition);
 	HelpDialog.ShowModal();
