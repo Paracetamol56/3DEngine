@@ -25,6 +25,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="Vector3D.h" />
+    <ClInclude Include="wxmemdbg.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
