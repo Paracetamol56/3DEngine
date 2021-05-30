@@ -3,6 +3,7 @@
 #include <wx/wx.h>
 #include <wx/menu.h>
 #include <wx/wfstream.h>
+#include <wx/msgdlg.h>
 #include <wx/filedlg.h>
 #include <array>
 #include <string>
@@ -90,6 +91,7 @@ private:
 	void OnImport(wxCommandEvent& event);
 	void OnShowPositionInfo(wxCommandEvent& event);
 	void OnShowNormals(wxCommandEvent& event);
+	void OnHelp(wxCommandEvent& event);
 	void OnAbout(wxCommandEvent& event);
 
 	DECLARE_EVENT_TABLE()

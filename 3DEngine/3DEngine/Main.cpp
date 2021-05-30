@@ -6,6 +6,7 @@ BEGIN_EVENT_TABLE(CMain, wxFrame)
 	EVT_MENU(wxID_EXIT, CMain::OnQuit)
 	EVT_MENU(myID_SHOWINFO, CMain::OnShowPositionInfo)
 	EVT_MENU(myID_SHOWNORMALS, CMain::OnShowNormals)
+	EVT_MENU(wxID_HELP, CMain::OnHelp)
 	EVT_MENU(wxID_ABOUT, CMain::OnAbout)
 
 	EVT_KEY_DOWN(CMain::onKeyDown)
@@ -49,7 +50,8 @@ CMain::CMain() : wxFrame(nullptr, wxID_ANY, "3D Engine", wxDefaultPosition, wxSi
 	// Help menu
 	m_helpMenu = new wxMenu();
 
-	m_helpMenu->Append(wxID_ABOUT, _T("&About\tF1"));
+	m_helpMenu->Append(wxID_HELP, _T("&Help\tF1"));
+	m_helpMenu->Append(wxID_ABOUT, _T("&About\t"));
 
 	m_mainMenuBar->Append(m_helpMenu, _T("&Help"));
 	
@@ -353,6 +355,22 @@ void CMain::OnShowNormals(wxCommandEvent& event)
 {
 	m_showNormals = !m_showNormals;
 	updateRotation();
+}
+
+void CMain::OnHelp(wxCommandEvent& event)
+{
+	wxString helpMessage =
+		"Controls :\n"
+		"\tArrows UP | DOWN, LEFT | DOWN : Rotation X/Y\n"
+		"\tnumpad 8 | 2, 4 | 6 : Pan X/Y\n"
+		"\n"
+		"Created by Mathéo Galuba\n"
+		"Copyright(c) 2021\n"
+		"Licensed under the Apache License, Version 2.0"
+		"Available on GitHub at https://github.com/Paracetamol56/Cpp-Network-App";
+
+	wxMessageDialog HelpDialog(nullptr, helpMessage, "Help", wxICON_INFORMATION | wxOK_DEFAULT | wxCENTER, wxDefaultPosition);
+	HelpDialog.ShowModal();
 }
 
 void CMain::OnAbout(wxCommandEvent& event)
