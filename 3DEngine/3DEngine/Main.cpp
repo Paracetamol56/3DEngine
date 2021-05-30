@@ -33,7 +33,7 @@ CMain::CMain() : wxFrame(nullptr, wxID_ANY, "3D Engine", wxDefaultPosition, wxSi
 	// ======== END Example default cube mesh =======//
 	*/
 
-	m_mesh.LoadFromObjectFile("teapot.obj");
+	m_mesh.LoadFromObjectFile("D:/PROJETS INFO/PROGRAMMATION/C++/3DWireframeEngine/3DEngine/3DEngine/test.obj");
 
 	// Set the window backgorud color to black
 	SetBackgroundColour(wxColor(20, 20, 20));

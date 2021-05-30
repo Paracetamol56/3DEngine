@@ -24,37 +24,44 @@ void CMesh::addTriangle(CTriangle tri)
 
 bool CMesh::LoadFromObjectFile(std::string sFilename)
 {
-	std::ifstream f(sFilename);
-	if (!f.is_open())
+	std::ifstream file(sFilename);
+	if (file.is_open() == false)
 		return false;
 
 	// Local cache of verts
 	std::vector<CVector3D> vertices;
 
-	while (!f.eof())
+	while (file.eof() == false)
 	{
 		char line[128];
-		f.getline(line, 128);
+		file.getline(line, 128);
 
-		std::strstream s;
-		s << line;
+		std::strstream ssLine;
+		ssLine << line;
 
 		char junk;
 
-		// New vertex
-		if (line[0] == 'v')
+		switch (line[0])
 		{
+		case 'v':
+		{
+			// New vertex
 			CVector3D v;
-			s >> junk >> v.m_x >> v.m_y >> v.m_z;
+			ssLine >> junk >> v.m_x >> v.m_y >> v.m_z;
 			vertices.push_back(v);
+			break;
 		}
-
-		// New face
-		if (line[0] == 'f')
+		case 'f':
 		{
+			// New face
 			int f[3];
-			s >> junk >> f[0] >> f[1] >> f[2];
-			m_triangles.push_back({ vertices[f[0] - 1], vertices[f[1] - 1], vertices[f[2] - 1] });
+			ssLine >> junk >> f[0] >> f[1] >> f[2];
+			CTriangle newTriangle(vertices[f[0] - 1], vertices[f[1] - 1], vertices[f[2] - 1]);
+			m_triangles.push_back(newTriangle);
+			break;
+		}
+		default:
+			break;
 		}
 	}
 
