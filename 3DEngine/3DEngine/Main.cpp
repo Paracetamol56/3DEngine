@@ -15,6 +15,9 @@ BEGIN_EVENT_TABLE(CMain, wxFrame)
 	EVT_MENU(wxID_EXIT, CMain::OnQuit)
 	EVT_MENU(myID_SHOWINFO, CMain::OnShowPositionInfo)
 	EVT_MENU(myID_SHOWNORMALS, CMain::OnShowNormals)
+	EVT_MENU(myID_SHOWGIZMO, CMain::OnShowGizmo)
+	EVT_MENU(myID_SHOWORIGIN, CMain::OnShowOrigin)
+	EVT_MENU(myID_RESET, CMain::OnReset)
 	EVT_MENU(wxID_HELP, CMain::OnHelp)
 	EVT_MENU(wxID_ABOUT, CMain::OnAbout)
 
@@ -51,8 +54,12 @@ CMain::CMain() : wxFrame(nullptr, wxID_ANY, "3D Engine", wxDefaultPosition, wxSi
 	// Setting menu
 	m_settingMenu = new wxMenu();
 
-	m_settingMenu->Append(myID_SHOWINFO, _T("Show position info"));
-	m_settingMenu->Append(myID_SHOWNORMALS, _T("Show normals"));
+	m_settingMenu->Append(myID_SHOWINFO, _T("Show/Hide position info"));
+	m_settingMenu->Append(myID_SHOWNORMALS, _T("Show/Hide normals"));
+	m_settingMenu->Append(myID_SHOWGIZMO, _T("Show/Hide gizmo"));
+	m_settingMenu->Append(myID_SHOWORIGIN, _T("Show/Hide origin"));
+	m_settingMenu->AppendSeparator();
+	m_settingMenu->Append(myID_RESET, _T("Reset to default"));
 
 	m_mainMenuBar->Append(m_settingMenu, _T("&Settings"));
 
@@ -168,12 +175,14 @@ void CMain::update()
 	}
 
 	// Draw gizmo and origin
-	{
-		// Set the origin point
-		CVector3D origin(0.0f, 0.0f, 0.0f);
-		origin *= m_projMat;
-		origin += translationVec;
+	
+	// Set the origin point
+	CVector3D origin(0.0f, 0.0f, 0.0f);
+	origin *= m_projMat;
+	origin += translationVec;
 
+	if (m_showGizmo)
+	{
 		// Create 3 vectors for the gizmo
 		CVector3D gizmoX(1.0f, 0.0f, 0.0f);
 		CVector3D gizmoY(0.0f, 1.0f, 0.0f);
@@ -207,7 +216,10 @@ void CMain::update()
 		m_dc->DrawLine(origin.m_x, origin.m_y, gizmoY.m_x, gizmoY.m_y);
 		m_dc->SetPen(wxPen(wxColor(20, 20, 255), 1));
 		m_dc->DrawLine(origin.m_x, origin.m_y, gizmoZ.m_x, gizmoZ.m_y);
-
+	}
+	
+	if (m_showOrigin)
+	{
 		// Draw the origin point in blue
 		m_dc->SetPen(wxPen(wxColor(100, 100, 255), 2));
 		m_dc->DrawLine(origin.m_x + 3.0f, origin.m_y, origin.m_x - 3.0f, origin.m_y);
@@ -363,6 +375,28 @@ void CMain::OnShowPositionInfo(wxCommandEvent& event)
 void CMain::OnShowNormals(wxCommandEvent& event)
 {
 	m_showNormals = !m_showNormals;
+	updateRotation();
+}
+
+void CMain::OnShowGizmo(wxCommandEvent& event)
+{
+	m_showGizmo = !m_showGizmo;
+	updateRotation();
+}
+
+void CMain::OnShowOrigin(wxCommandEvent& event)
+{
+	m_showOrigin = !m_showOrigin;
+	updateRotation();
+}
+
+void CMain::OnReset(wxCommandEvent& event)
+{
+	m_showInfo = true;
+	m_showNormals = false;
+	m_showGizmo = true;
+	m_showOrigin = true;
+
 	updateRotation();
 }
 

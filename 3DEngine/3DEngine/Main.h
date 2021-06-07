@@ -17,6 +17,8 @@
 #include <wx/wfstream.h>
 #include <wx/msgdlg.h>
 #include <wx/filedlg.h>
+#include <wx/colordlg.h>
+#include <wx/colourdata.h>
 #include <array>
 #include <string>
 #include "Triangle.h"
@@ -28,6 +30,9 @@
 wxDEFINE_EVENT(myID_IMPORT, wxCommandEvent);
 wxDEFINE_EVENT(myID_SHOWINFO, wxCommandEvent);
 wxDEFINE_EVENT(myID_SHOWNORMALS, wxCommandEvent);
+wxDEFINE_EVENT(myID_SHOWGIZMO, wxCommandEvent);
+wxDEFINE_EVENT(myID_SHOWORIGIN, wxCommandEvent);
+wxDEFINE_EVENT(myID_RESET, wxCommandEvent);
 
 class CMain : public wxFrame
 {
@@ -41,6 +46,8 @@ private:
 	// GUI variables
 	bool m_showInfo = true;
 	bool m_showNormals = false;
+	bool m_showGizmo = true;
+	bool m_showOrigin = true;
 
 	// Mesh
 	CMesh m_mesh;
@@ -103,6 +110,9 @@ private:
 	void OnImport(wxCommandEvent& event);
 	void OnShowPositionInfo(wxCommandEvent& event);
 	void OnShowNormals(wxCommandEvent& event);
+	void OnShowGizmo(wxCommandEvent& event);
+	void OnShowOrigin(wxCommandEvent& event);
+	void OnReset(wxCommandEvent& event);
 	void OnHelp(wxCommandEvent& event);
 	void OnAbout(wxCommandEvent& event);
 
