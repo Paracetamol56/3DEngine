@@ -58,21 +58,38 @@ bool CMesh::LoadFromObjectFile(std::string sFilePath)
 		// If the line define a vertex (start with v)
 		case 'v':
 		{
-			// New vertex
-			CVector3D v;
-			ssLine >> junk >> v.m_x >> v.m_y >> v.m_z;
-			vertices.push_back(v);
+			if(line[1] == ' ')
+			{
+				// New vertex
+				CVector3D v;
+				ssLine >> junk >> v.m_x >> v.m_y >> v.m_z;
+				vertices.push_back(v);
+			}
+			else
+			{
+				// Other (not yet)
+			}
 			break;
 		}
 		// If the line define a face (start with f)
 		case 'f':
 		{
-			// New face
-			int f[3];
-			std::vector<CVector3D> points;
-			ssLine >> junk >> f[0] >> f[1] >> f[2];
+			// Drop first charactere
+			ssLine >> junk;
 
-			CTriangle newTriangle(vertices[f[0] - 1], vertices[f[1] - 1], vertices[f[2] - 1]);
+			std::string tokens[9];
+			unsigned int TokenCount = -1;
+
+			while (!ssLine.eof())
+			{
+				char c = ssLine.get();
+				if (c == ' ' || c == '/')
+					++ TokenCount;
+				else
+					tokens[TokenCount].append(1, c);
+			}
+
+			CTriangle newTriangle(vertices[std::stoi(tokens[0]) - 1], vertices[std::stoi(tokens[3]) - 1], vertices[std::stoi(tokens[6]) - 1]);
 			m_triangles.push_back(newTriangle);
 			break;
 		}

@@ -16,6 +16,7 @@
 #include "Vector3D.h"
 #include <list>
 #include <vector>
+#include <string>
 #include <strstream>
 #include <fstream>
 
