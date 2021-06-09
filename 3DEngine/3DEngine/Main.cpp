@@ -264,10 +264,10 @@ void CMain::onKeyDown(wxKeyEvent& event)
 	switch (event.GetKeyCode())
 	{
 	case wxKeyCode::WXK_LEFT:
-		m_thetaX += 0.1570796f;
+		m_thetaY += 0.1570796f;
 		break;
 	case wxKeyCode::WXK_RIGHT:
-		m_thetaX -= 0.1570796f;
+		m_thetaY -= 0.1570796f;
 		break;
 	case wxKeyCode::WXK_UP:
 		m_thetaZ += 0.1570796f;
