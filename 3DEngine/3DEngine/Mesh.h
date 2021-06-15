@@ -36,6 +36,9 @@ public:
 	// Setters
 	void addTriangle( CTriangle tri );
 
+	// Default cube loader
+	void LoadDefaultCube();
+
 	// OBJ loader
 	bool LoadFromObjectFile(std::string sFilename);
 };

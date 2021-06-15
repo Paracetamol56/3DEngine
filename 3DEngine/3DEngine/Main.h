@@ -1,7 +1,7 @@
 /*
  * Created on Tue May 30 2021
  *
- * Copyright (c) 2021 - Mathéo Galuba - All Right Reserved
+ * Copyright (c) 2021 - Mathï¿½o Galuba - All Right Reserved
  *
  * Licensed under the Apache License, Version 2.0
  * Available on GitHub at https://github.com/Paracetamol56/3DWireframeEngine
@@ -28,6 +28,7 @@
 
 // Define custom events
 wxDEFINE_EVENT(myID_IMPORT, wxCommandEvent);
+wxDEFINE_EVENT(myID_DEFAULTCUBE, wxCommandEvent);
 wxDEFINE_EVENT(myID_SHOWINFO, wxCommandEvent);
 wxDEFINE_EVENT(myID_SHOWNORMALS, wxCommandEvent);
 wxDEFINE_EVENT(myID_SHOWGIZMO, wxCommandEvent);
@@ -107,6 +108,7 @@ public:
 private:
 	// Menu events
 	void OnQuit(wxCommandEvent& event);
+	void OnDefaultCube(wxCommandEvent& event);
 	void OnImport(wxCommandEvent& event);
 	void OnShowPositionInfo(wxCommandEvent& event);
 	void OnShowNormals(wxCommandEvent& event);

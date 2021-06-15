@@ -1,7 +1,7 @@
 /*
  * Created on Tue May 30 2021
  *
- * Copyright (c) 2021 - Mathéo Galuba - All Right Reserved
+ * Copyright (c) 2021 - Mathï¿½o Galuba - All Right Reserved
  *
  * Licensed under the Apache License, Version 2.0
  * Available on GitHub at https://github.com/Paracetamol56/3DWireframeEngine
@@ -12,6 +12,7 @@
 BEGIN_EVENT_TABLE(CMain, wxFrame)
 
 	EVT_MENU(myID_IMPORT, CMain::OnImport)
+	EVT_MENU(myID_DEFAULTCUBE, CMain::OnDefaultCube)
 	EVT_MENU(wxID_EXIT, CMain::OnQuit)
 	EVT_MENU(myID_SHOWINFO, CMain::OnShowPositionInfo)
 	EVT_MENU(myID_SHOWNORMALS, CMain::OnShowNormals)
@@ -45,6 +46,7 @@ CMain::CMain() : wxFrame(nullptr, wxID_ANY, "3D Engine", wxDefaultPosition, wxSi
 	// File menu
 	m_fileMenu = new wxMenu();
 
+	m_fileMenu->Append(myID_DEFAULTCUBE, _T("Load default cube"));
 	m_fileMenu->Append(myID_IMPORT, _T("Import OBJ file\tCtrl+O"));
 	m_fileMenu->AppendSeparator();
 	m_fileMenu->Append(wxID_EXIT, _T("&Quit"));
@@ -72,29 +74,6 @@ CMain::CMain() : wxFrame(nullptr, wxID_ANY, "3D Engine", wxDefaultPosition, wxSi
 	m_mainMenuBar->Append(m_helpMenu, _T("&Help"));
 	
 	SetMenuBar(m_mainMenuBar);
-
-	/*
-	// ========= Example default cube mesh ========= //
-	// Bottom face
-	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, 0.0f, 1.0f), CVector3D(0.0f, 0.0f, 1.0f), CVector3D(0.0f, 0.0f, 0.0f)));
-	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, 0.0f, 1.0f), CVector3D(0.0f, 0.0f, 0.0f), CVector3D(1.0f, 0.0f, 0.0f)));
-	// Front face
-	m_mesh.addTriangle(CTriangle(CVector3D(0.0f, 0.0f, 0.0f), CVector3D(0.0f, 1.0f, 0.0f), CVector3D(1.0f, 1.0f, 0.0f)));
-	m_mesh.addTriangle(CTriangle(CVector3D(0.0f, 0.0f, 0.0f), CVector3D(1.0f, 1.0f, 0.0f), CVector3D(1.0f, 0.0f, 0.0f)));
-	// Right face
-	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, 0.0f, 0.0f), CVector3D(1.0f, 1.0f, 0.0f), CVector3D(1.0f, 1.0f, 1.0f)));
-	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, 0.0f, 0.0f), CVector3D(1.0f, 1.0f, 1.0f), CVector3D(1.0f, 0.0f, 1.0f)));
-	// Back face
-	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, 0.0f, 1.0f), CVector3D(1.0f, 1.0f, 1.0f), CVector3D(0.0f, 1.0f, 1.0f)));
-	m_mesh.addTriangle(CTriangle(CVector3D(1.0f, 0.0f, 1.0f), CVector3D(0.0f, 1.0f, 1.0f), CVector3D(0.0f, 0.0f, 1.0f)));
-	// Left face
-	m_mesh.addTriangle(CTriangle(CVector3D(0.0f, 0.0f, 1.0f), CVector3D(0.0f, 1.0f, 1.0f), CVector3D(0.0f, 1.0f, 0.0f)));
-	m_mesh.addTriangle(CTriangle(CVector3D(0.0f, 0.0f, 1.0f), CVector3D(0.0f, 1.0f, 0.0f), CVector3D(0.0f, 0.0f, 0.0f)));
-	// Top face
-	m_mesh.addTriangle(CTriangle(CVector3D(0.0f, 1.0f, 0.0f), CVector3D(0.0f, 1.0f, 1.0f), CVector3D(1.0f, 1.0f, 1.0f)));
-	m_mesh.addTriangle(CTriangle(CVector3D(0.0f, 1.0f, 0.0f), CVector3D(1.0f, 1.0f, 1.0f), CVector3D(1.0f, 1.0f, 0.0f)));
-	// ======== END Example default cube mesh =======//
-	*/
 
 	Update();
 
@@ -344,6 +323,12 @@ void CMain::OnQuit(wxCommandEvent& event)
 	Destroy();
 }
 
+void CMain::OnDefaultCube(wxCommandEvent& event)
+{
+	m_mesh.LoadDefaultCube();
+	updateRotation();
+}
+
 void CMain::OnImport(wxCommandEvent& event)
 {
 	wxFileDialog openFileDialog(nullptr, _("Open a file"), "", "",
@@ -355,12 +340,17 @@ void CMain::OnImport(wxCommandEvent& event)
 	if (input_stream.IsOk() == false)
 	{
 		wxLogError("Cannot open file '%s'.", openFileDialog.GetPath());
-		wxMessageDialog WarnEmptyDialog(nullptr, "Cannot open file '%s'.", "WARNING", wxICON_EXCLAMATION | wxOK_DEFAULT | wxCENTER, wxDefaultPosition);
+		wxMessageDialog WarnEmptyDialog(nullptr, "Cannot open file '%s'.", "ERROR", wxICON_EXCLAMATION | wxOK_DEFAULT | wxCENTER, wxDefaultPosition);
 		return;
 	}
 	else
 	{
-		m_mesh.LoadFromObjectFile(std::string(openFileDialog.GetPath()));
+		if (m_mesh.LoadFromObjectFile(std::string(openFileDialog.GetPath())) == false)
+		{
+			wxLogError("An error as occured during file reading");
+			wxMessageDialog WarnEmptyDialog(nullptr, "An error occurred while reading the file.", "ERROR", wxICON_EXCLAMATION | wxOK_DEFAULT | wxCENTER, wxDefaultPosition);
+			return;
+		}
 	}
 
 	updateRotation();
@@ -407,7 +397,7 @@ void CMain::OnHelp(wxCommandEvent& event)
 		"\tArrows UP | DOWN, LEFT | DOWN : Rotation X/Y\n"
 		"\tnumpad 8 | 2, 4 | 6 : Pan X/Y\n"
 		"\n"
-		"Created by Mathéo Galuba\n"
+		"Created by Mathï¿½o Galuba\n"
 		"Copyright(c) 2021\n"
 		"Licensed under the Apache License, Version 2.0"
 		"Available on GitHub at https://github.com/Paracetamol56/3DWireframeEngine";
