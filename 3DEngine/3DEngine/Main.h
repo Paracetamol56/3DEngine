@@ -31,6 +31,7 @@ wxDEFINE_EVENT(myID_IMPORT, wxCommandEvent);
 wxDEFINE_EVENT(myID_DEFAULTCUBE, wxCommandEvent);
 wxDEFINE_EVENT(myID_SHOWINFO, wxCommandEvent);
 wxDEFINE_EVENT(myID_SHOWNORMALS, wxCommandEvent);
+wxDEFINE_EVENT(myID_SHOWTRANSPARENCY, wxCommandEvent);
 wxDEFINE_EVENT(myID_SHOWGIZMO, wxCommandEvent);
 wxDEFINE_EVENT(myID_SHOWORIGIN, wxCommandEvent);
 wxDEFINE_EVENT(myID_RESET, wxCommandEvent);
@@ -47,6 +48,7 @@ private:
 	// GUI variables
 	bool m_showInfo = true;
 	bool m_showNormals = false;
+	bool m_showTransparency = true;
 	bool m_showGizmo = true;
 	bool m_showOrigin = true;
 
@@ -112,6 +114,7 @@ private:
 	void OnImport(wxCommandEvent& event);
 	void OnShowPositionInfo(wxCommandEvent& event);
 	void OnShowNormals(wxCommandEvent& event);
+	void OnShowTransparency(wxCommandEvent& event);
 	void OnShowGizmo(wxCommandEvent& event);
 	void OnShowOrigin(wxCommandEvent& event);
 	void OnReset(wxCommandEvent& event);

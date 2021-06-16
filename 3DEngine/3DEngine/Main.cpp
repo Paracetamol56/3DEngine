@@ -16,6 +16,7 @@ BEGIN_EVENT_TABLE(CMain, wxFrame)
 	EVT_MENU(wxID_EXIT, CMain::OnQuit)
 	EVT_MENU(myID_SHOWINFO, CMain::OnShowPositionInfo)
 	EVT_MENU(myID_SHOWNORMALS, CMain::OnShowNormals)
+	EVT_MENU(myID_SHOWTRANSPARENCY, CMain::OnShowTransparency)
 	EVT_MENU(myID_SHOWGIZMO, CMain::OnShowGizmo)
 	EVT_MENU(myID_SHOWORIGIN, CMain::OnShowOrigin)
 	EVT_MENU(myID_RESET, CMain::OnReset)
@@ -58,6 +59,7 @@ CMain::CMain() : wxFrame(nullptr, wxID_ANY, "3D Engine", wxDefaultPosition, wxSi
 
 	m_settingMenu->Append(myID_SHOWINFO, _T("Show/Hide position info"));
 	m_settingMenu->Append(myID_SHOWNORMALS, _T("Show/Hide normals"));
+	m_settingMenu->Append(myID_SHOWTRANSPARENCY, _T("Show/Hide transparency"));
 	m_settingMenu->Append(myID_SHOWGIZMO, _T("Show/Hide gizmo"));
 	m_settingMenu->Append(myID_SHOWORIGIN, _T("Show/Hide origin"));
 	m_settingMenu->AppendSeparator();
@@ -127,6 +129,30 @@ void CMain::update()
 			projPoints.at(i) += translationVec;
 		}
 
+		if (m_showTransparency)
+		{
+			// Draw each edge of the triangle
+			m_dc->SetPen(wxPen(wxColor(255, 255, 255), 2));
+			m_dc->DrawLine(projPoints.at(0).m_x, projPoints.at(0).m_y, projPoints.at(1).m_x, projPoints.at(1).m_y);
+			m_dc->DrawLine(projPoints.at(1).m_x, projPoints.at(1).m_y, projPoints.at(2).m_x, projPoints.at(2).m_y);
+			m_dc->DrawLine(projPoints.at(2).m_x, projPoints.at(2).m_y, projPoints.at(0).m_x, projPoints.at(0).m_y);
+		}
+		else
+		{
+			CVector3D Camera(0.0f, 0.0f, - m_zOffset);
+
+			if (iNormal.m_x * (projPoints.at(0).m_x - Camera.m_x) +
+				iNormal.m_y * (projPoints.at(0).m_y - Camera.m_y) +
+				iNormal.m_z * (projPoints.at(0).m_z - Camera.m_z) < 0.0f)
+			{
+				// Draw each edge of the triangle
+				m_dc->SetPen(wxPen(wxColor(255, 255, 255), 2));
+				m_dc->DrawLine(projPoints.at(0).m_x, projPoints.at(0).m_y, projPoints.at(1).m_x, projPoints.at(1).m_y);
+				m_dc->DrawLine(projPoints.at(1).m_x, projPoints.at(1).m_y, projPoints.at(2).m_x, projPoints.at(2).m_y);
+				m_dc->DrawLine(projPoints.at(2).m_x, projPoints.at(2).m_y, projPoints.at(0).m_x, projPoints.at(0).m_y);
+			}
+		}
+
 		iMassCenter *= m_rotMat;
 		iMassCenter.m_z += m_zOffset;
 		iMassCenter *= m_projMat;
@@ -138,12 +164,6 @@ void CMain::update()
 		iNormal *= m_projMat;
 		iNormal *= 1000.0f;
 		iNormal += translationVec;
-
-		// Draw each edge of the triangle
-		m_dc->SetPen(wxPen(wxColor(255, 255, 255), 2));
-		m_dc->DrawLine(projPoints.at(0).m_x, projPoints.at(0).m_y, projPoints.at(1).m_x, projPoints.at(1).m_y);
-		m_dc->DrawLine(projPoints.at(1).m_x, projPoints.at(1).m_y, projPoints.at(2).m_x, projPoints.at(2).m_y);
-		m_dc->DrawLine(projPoints.at(2).m_x, projPoints.at(2).m_y, projPoints.at(0).m_x, projPoints.at(0).m_y);
 
 		// Draw the normals
 		if (m_showNormals)
@@ -368,6 +388,12 @@ void CMain::OnShowNormals(wxCommandEvent& event)
 	updateRotation();
 }
 
+void CMain::OnShowTransparency(wxCommandEvent& event)
+{
+	m_showTransparency = !m_showTransparency;
+	updateRotation();
+}
+
 void CMain::OnShowGizmo(wxCommandEvent& event)
 {
 	m_showGizmo = !m_showGizmo;
@@ -384,6 +410,7 @@ void CMain::OnReset(wxCommandEvent& event)
 {
 	m_showInfo = true;
 	m_showNormals = false;
+	m_showTransparency = true;
 	m_showGizmo = true;
 	m_showOrigin = true;
 
